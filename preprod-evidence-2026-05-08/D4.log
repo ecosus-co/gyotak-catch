@@ -1,0 +1,6 @@
+=== D-4 proof-server reachability ===
+Run: 2026-05-08T19:42:23+07:00
+URL: https://proof-server.preprod.midnight.network/
+--- HTTP code ---
+200
+OK: server reachable (code 200)

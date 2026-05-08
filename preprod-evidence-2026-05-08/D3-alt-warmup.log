@@ -1,0 +1,82 @@
+=== D-3-alt warmup (30min cap) ===
+Run start: 2026-05-08T20:03:29+07:00
+Helper: scripts/_d3alt-balance-via-restore.ts
+
+--- saved state mtimes BEFORE ---
+1778157636 2026-05-07 19:40:36.124004541 +0700 3188442 midnight-level-db/preprod/dust.json
+1778157636 2026-05-07 19:40:36.120138869 +0700 3965 midnight-level-db/preprod/shielded.json
+1778157636 2026-05-07 19:40:36.120138869 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- run completed ---
+Run end: 2026-05-08T20:05:32+07:00
+Wall-clock elapsed: 123s (2.05 min)
+Exit code: 0  (124=timeout SIGTERM, 137=SIGKILL, 0=clean exit, 2=script-caught error)
+
+--- saved state mtimes AFTER ---
+1778245532 2026-05-08 20:05:32.718722273 +0700 3249030 midnight-level-db/preprod/dust.json
+1778245532 2026-05-08 20:05:32.711522273 +0700 3371 midnight-level-db/preprod/shielded.json
+1778245532 2026-05-08 20:05:32.711522273 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- diagnostic flags ---
+fresh-start hits:        0   (expect 0)
+restore hits:            1   (expect 1)
+Sync complete hits:      1   (expect 1)
+wallet state persisted:  2   (expect 1+)
+dust-wait spinner hits:  0
+total sync emissions:    1097
+
+OK: warmup completed cleanly. saved state refreshed, balance available.
+
+--- Wallet Overview (extracted from stdout) ---
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+
+--- balance lines (NIGHT/DUST) ---
+[sync emission #1081 t=89.4s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1082 t=89.5s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1083 t=89.6s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1084 t=89.7s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1085 t=89.7s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1086 t=89.8s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1087 t=89.9s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1088 t=89.9s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1089 t=90.0s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1090 t=90.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1091 t=90.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1092 t=90.3s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1093 t=90.3s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1094 t=90.4s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1095 t=90.5s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1096 t=90.6s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #1097 t=90.6s] isSynced=true dust.coins=1 night=1000000000
+  └─ Balance: 1,000,000,000 tNight
+    DUST present: 2,207,199,165,999,999,996 (1 coins)
+  ✓ Dust tokens already available (2,207,199,165,999,999,996 DUST)
+
+--- last 20 stdout lines ---
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+
+  Shielded (ZSwap)
+  └─ Address: mn_shield-addr_preprod1c8yf4dmy47pshyznhx4gtp89grzsqkg89etx58pnwftwcms9gapaglvjjvtkcy49sj5kc65qx5vsrmsw7fqd6aealz3gkeg2kzqfqes2xkw2n
+
+  Unshielded
+  ├─ Address: mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+  └─ Balance: 1,000,000,000 tNight
+
+  Dust
+  └─ Address: mn_dust_preprod1wd6rgfyh77awlww7rs2cufcun5uwpjvfcd2jhs3dqx2k42msxrlhzqa9l3l
+
+──────────────────────────────────────────────────────────────
+    DUST present: 2,207,199,165,999,999,996 (1 coins)
+
+  ✓ Dust tokens already available (2,207,199,165,999,999,996 DUST)
+[20:05:32.723] [32mINFO[39m (5976): [36mwallet state persisted[39m
+    [35mdir[39m: "/home/takuya/midnight/gyotak-catch/midnight-level-db/preprod"
+
+--- last 10 stderr lines ---
+2026-05-08 20:04:03        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:04:03        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure

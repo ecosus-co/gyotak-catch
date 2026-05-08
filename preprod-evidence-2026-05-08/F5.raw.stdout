@@ -1,0 +1,75 @@
+
+> gyotak-catch@1.0.0 record-catch:preprod
+> NODE_OPTIONS='--max-old-space-size=8192' npm run preprod -- record-catch ROTATE-TEST-B-001 Bangkok 2026-05-08 TestFish https://placehold.co/200x200.png 13.7563 100.5018
+
+
+> gyotak-catch@1.0.0 preprod
+> PATH=/home/takuya/.local/node22/bin:$PATH NODE_OPTIONS='--max-old-space-size=8192' node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm src/preprod.ts record-catch ROTATE-TEST-B-001 Bangkok 2026-05-08 TestFish https://placehold.co/200x200.png 13.7563 100.5018
+
+[20:51:10.148] [32mINFO[39m (8031): [36mFetching photo for hashing...[39m
+    [35mphotoUrl[39m: "https://placehold.co/200x200.png"
+[20:51:10.847] [32mINFO[39m (8031): [36mphoto sha256 computed[39m
+    [35mphotoBytes[39m: 2220
+    [35mphotoHash[39m: "e96616c15e7a63a4d21bd46dc64a2b358f26577b994b24b4362a84460e352955"
+
+[wallet] Restoring saved state from /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod
+  ✓ Building wallet
+
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+  Unshielded Address (send tNight here):
+  mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+──────────────────────────────────────────────────────────────
+
+[deploy] Starting wallet sync (no spinner wrap)...
+[sync emission #1 t=0.0s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #2 t=1.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #3 t=1.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #4 t=1.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #5 t=1.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #6 t=1.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #7 t=1.3s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #8 t=1.4s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #9 t=1.5s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #10 t=1.5s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #11 t=1.6s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #12 t=1.6s] isSynced=true dust.coins=1 night=1000000000
+[deploy] Sync complete in 1.6s after 12 emissions
+[20:51:36.194] [32mINFO[39m (8031): [36mwallet state persisted[39m
+    [35mdir[39m: "/home/takuya/midnight/gyotak-catch/midnight-level-db/preprod"
+
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+
+  Shielded (ZSwap)
+  └─ Address: mn_shield-addr_preprod1c8yf4dmy47pshyznhx4gtp89grzsqkg89etx58pnwftwcms9gapaglvjjvtkcy49sj5kc65qx5vsrmsw7fqd6aealz3gkeg2kzqfqes2xkw2n
+
+  Unshielded
+  ├─ Address: mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+  └─ Balance: 1,000,000,000 tNight
+
+  Dust
+  └─ Address: mn_dust_preprod1wd6rgfyh77awlww7rs2cufcun5uwpjvfcd2jhs3dqx2k42msxrlhzqa9l3l
+
+──────────────────────────────────────────────────────────────
+    DUST present: 2,229,449,153,999,999,994 (1 coins)
+
+  ✓ Dust tokens already available (2,229,449,153,999,999,994 DUST)
+  ✓ Configuring providers
+[20:51:39.710] [32mINFO[39m (8031): [36mJoined contract at address: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f[39m
+[20:51:39.712] [32mINFO[39m (8031): [36mrecordCatch...[39m
+    [35mbatchId[39m: "524f544154452d544553542d422d303031000000000000000000000000000000"
+  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch[20:52:09.079] [32mINFO[39m (8031): [36mTransaction 0010d98f43ddf032172146d69376194296da2ffce7f098d8d6d68e25745ea99b1c added in block 692180[39m
+  ✓ Submitting recordCatch
+
+  ─ recordCatch TX submitted
+    txId:        0010d98f43ddf032172146d69376194296da2ffce7f098d8d6d68e25745ea99b1c
+    blockHeight: 692180
+    blockHash:   0325fea2661edd78cacf70baa9519969ddeca568c6583c53f28005eecffb0ba6
+    photoHash:   e96616c15e7a63a4d21bd46dc64a2b358f26577b994b24b4362a84460e352955
+
+[20:52:09.855] [32mINFO[39m (8031): [36mwallet state persisted[39m
+    [35mdir[39m: "/home/takuya/midnight/gyotak-catch/midnight-level-db/preprod"
+[20:52:09.890] [32mINFO[39m (8031): [36mGoodbye.[39m

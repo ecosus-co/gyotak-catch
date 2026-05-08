@@ -1,0 +1,14 @@
+=== A-3 entropy source check ===
+Run: 2026-05-08T19:07:51+07:00
+
+--- openssl version ---
+OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+
+--- /dev/urandom ---
+/dev/urandom OK (character device present)
+
+--- /proc/sys/kernel/random/entropy_avail ---
+256
+
+--- platform ---
+Linux LAPTOP-7GP9E9H6 6.6.87.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux

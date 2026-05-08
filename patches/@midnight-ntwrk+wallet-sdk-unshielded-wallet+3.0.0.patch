@@ -1,0 +1,28 @@
+diff --git a/node_modules/@midnight-ntwrk/wallet-sdk-unshielded-wallet/dist/v1/TransactionOps.js b/node_modules/@midnight-ntwrk/wallet-sdk-unshielded-wallet/dist/v1/TransactionOps.js
+index 2667600..9edc0cc 100644
+--- a/node_modules/@midnight-ntwrk/wallet-sdk-unshielded-wallet/dist/v1/TransactionOps.js
++++ b/node_modules/@midnight-ntwrk/wallet-sdk-unshielded-wallet/dist/v1/TransactionOps.js
+@@ -28,7 +28,7 @@ export const TransactionOps = {
+         });
+     },
+     getSegments(transaction) {
+-        return transaction.intents?.keys().toArray() ?? [];
++        return Array.from(transaction.intents?.keys() ?? []);
+     },
+     findAvailableSegmentId(transaction) {
+         const used = new Set(transaction.intents?.keys() ?? []);
+@@ -58,12 +58,9 @@ export const TransactionOps = {
+         });
+     },
+     getImbalances(transaction, segment) {
+-        const imbalances = transaction
+-            .imbalances(segment)
+-            .entries()
++        const imbalances = Array.from(transaction.imbalances(segment).entries())
+             .filter(([token, value]) => token.tag === 'unshielded' && value !== 0n)
+-            .map(([token, value]) => [token.raw.toString(), value])
+-            .toArray();
++            .map(([token, value]) => [token.raw.toString(), value]);
+         return Imbalances.fromEntries(imbalances);
+     },
+     addSignaturesToOffer(offer, signature, segment, offerType) {

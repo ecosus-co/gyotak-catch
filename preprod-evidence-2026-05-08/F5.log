@@ -1,0 +1,95 @@
+=== F-5 POSITIVE recordCatch under sk-B ===
+Run: 2026-05-08T20:50:57+07:00
+
+--- pre-swap state (metadata only, no sk content emitted) ---
+total 12
+drwx------ 2 takuya takuya 4096 May  8 19:08 .
+drwxr-xr-x 7 takuya takuya 4096 May  8 20:34 ..
+-rw------- 1 takuya takuya   65 May  8 19:08 admin-sk.txt
+active sk-A exists: yes
+suspended slot occupied: no
+rehearsal sk-B exists: yes
+
+--- swap: sk-A → .suspended ---
+-rw------- 1 takuya takuya 65 May  8 19:08 /home/takuya/midnight/.gyotak-secrets/admin-sk.A.suspended
+
+--- swap: sk-B → active ---
+600 takuya:takuya 65 /home/takuya/midnight/.gyotak-secrets/admin-sk.txt
+
+--- post-swap state ---
+total 16
+drwx------ 2 takuya takuya 4096 May  8 20:50 .
+drwxr-xr-x 7 takuya takuya 4096 May  8 20:34 ..
+-rw------- 1 takuya takuya   65 May  8 19:08 admin-sk.A.suspended
+-rw------- 1 takuya takuya   65 May  8 20:50 admin-sk.txt
+
+active key format check (expect 65 bytes / 1 hex match):
+65
+1
+
+--- saved state mtimes BEFORE recordCatch ---
+1778247979 2026-05-08 20:46:19.891316112 +0700 3250972 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/dust.json
+1778247979 2026-05-08 20:46:19.887496499 +0700 3371 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/shielded.json
+1778247979 2026-05-08 20:46:19.887496499 +0700 736 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/unshielded.json
+
+--- proof-server health ---
+{"status":"ok","timestamp":"2026-05-08 13:50:57.509797314 +00:00:00"} (code=200)
+
+--- record-catch run completed ---
+Run end: 2026-05-08T20:52:10+07:00
+Wall-clock elapsed: 73s
+Exit code: 0
+
+--- saved state mtimes AFTER ---
+1778248329 2026-05-08 20:52:09.848864761 +0700 3252364 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/dust.json
+1778248329 2026-05-08 20:52:09.845098654 +0700 3371 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/shielded.json
+1778248329 2026-05-08 20:52:09.845098654 +0700 736 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/unshielded.json
+
+--- diagnostic flags ---
+fresh-start hits:        0
+restore hits:            1   (expect 1)
+Sync complete hits:      1   (expect 1)
+wallet state persisted:  2   (expect >=1)
+recordCatch... INFO log: 1   (expect 1)
+recordCatch TX submitted: 1   (expect 1)
+unauthorized hits:       /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/F5.raw.stderr:0   (expect 0 — sk-B is now legit)
+proof-failure hits:      /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/F5.raw.stderr:0   (expect 0)
+submission/1016/pruning: /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/F5.raw.stderr:0   (expect 0)
+
+OK: F-5 POSITIVE recordCatch succeeded under sk-B
+
+--- key extracted lines ---
+    [35mphotoHash[39m: "e96616c15e7a63a4d21bd46dc64a2b358f26577b994b24b4362a84460e352955"
+  ✓ Building wallet
+  Wallet Overview                            Network: preprod
+  Unshielded Address (send tNight here):
+  Wallet Overview                            Network: preprod
+  └─ Balance: 1,000,000,000 tNight
+    DUST present: 2,229,449,153,999,999,994 (1 coins)
+  ✓ Dust tokens already available (2,229,449,153,999,999,994 DUST)
+  ✓ Configuring providers
+[20:51:39.712] [32mINFO[39m (8031): [36mrecordCatch...[39m
+  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch[20:52:09.079] [32mINFO[39m (8031): [36mTransaction 0010d98f43ddf032172146d69376194296da2ffce7f098d8d6d68e25745ea99b1c added in block 692180[39m
+  ✓ Submitting recordCatch
+  ─ recordCatch TX submitted
+    txId:        0010d98f43ddf032172146d69376194296da2ffce7f098d8d6d68e25745ea99b1c
+    blockHeight: 692180
+    blockHash:   0325fea2661edd78cacf70baa9519969ddeca568c6583c53f28005eecffb0ba6
+    photoHash:   e96616c15e7a63a4d21bd46dc64a2b358f26577b994b24b4362a84460e352955
+
+--- last 10 stderr lines ---
+2026-05-08 20:51:37        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:51:37        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+
+--- proof-server log tail ---
+[2m2026-05-08T13:50:22.221353Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000126s
+[2m2026-05-08T13:50:57.509830Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000061s
+[2m2026-05-08T13:51:41.090569Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /check...
+[2m2026-05-08T13:51:41.091706Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /check HTTP/1.1; took 0.001175s
+[2m2026-05-08T13:51:41.178377Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:51:43.749889Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 2.571545s
+[2m2026-05-08T13:51:44.445892Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:51:46.076693Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 1.630830s
+
+--- final active sk metadata (still sk-B) ---
+600 takuya:takuya 65 /home/takuya/midnight/.gyotak-secrets/admin-sk.txt

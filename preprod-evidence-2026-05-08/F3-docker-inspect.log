@@ -1,0 +1,47 @@
+=== F-3 Docker proof-server inspect ===
+Run: 2026-05-08T20:41:36+07:00
+
+--- 1. docker inspect (Cmd / ExposedPorts / Env) ---
+[/nix/store/k4a492bl82lg24l8vr6f0mcb77f5hfai-ledger-8.0.3/bin/midnight-proof-server --port $PORT]
+map[6300/tcp:{}]
+PATH=/nix/store/k4a492bl82lg24l8vr6f0mcb77f5hfai-ledger-8.0.3/bin
+PORT=6300
+
+
+--- 2. docker inspect (Entrypoint, WorkingDir, full Env list) ---
+Entrypoint: [/nix/store/p5qwzxakj3pygik51lpkpmrxc0771vj3-bash-interactive-x86_64-unknown-linux-musl-5.3p3/bin/bash -c]
+WorkingDir: 
+Labels:
+
+
+--- 3. ~/.bash_history grep (count only) ---
+matches for 'proof-server':
+0
+0
+matches for 'docker run.*proof':
+0
+0
+matches for 'docker.*midnight':
+0
+0
+matches for '6300':
+0
+0
+
+--- 4. docs/ scan for docker run / proof-server commands ---
+
+--- 5. scripts/ scan for docker / proof-server helper ---
+(no docker/proof scripts)
+
+--- 6. existing containers (running + stopped) for proof-server ---
+CONTAINER ID   IMAGE                              COMMAND                  CREATED       STATUS                     PORTS                                         NAMES
+7b93ec82585f   midnightntwrk/proof-server:8.0.3   "/nix/store/p5qwzxak…"   2 weeks ago   Exited (255) 7 hours ago   0.0.0.0:6300->6300/tcp, [::]:6300->6300/tcp   midnight-proof
+
+--- 7. midnight project root for docker-compose ---
+ls: cannot access '/home/takuya/midnight/gyotak-catch/docker-compose*': No such file or directory
+ls: cannot access '/home/takuya/midnight/gyotak-catch/Dockerfile*': No such file or directory
+ls: cannot access '/home/takuya/midnight/docker-compose*': No such file or directory
+ls: cannot access '/home/takuya/midnight/Dockerfile*': No such file or directory
+
+--- 8. extracted CLI-flag args from /entrypoint or /Cmd ---
+Image historic Cmd / Entrypoint signatures (if any):

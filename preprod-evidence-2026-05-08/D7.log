@@ -1,0 +1,14 @@
+=== D-7 final pk re-derivation + diff ===
+Run: 2026-05-08T19:46:37+07:00
+duration: 15s
+
+--- pk_final ---
+pk_final=5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+length: 64
+
+--- /tmp/pk-preprod.txt vs /tmp/pk-preprod-final.txt ---
+OK: no diff (deploy-time pk matches C-3 pk)
+
+--- byte-level confirmation ---
+pk-preprod.txt:       65 bytes / 1 match
+pk-preprod-final.txt: 65 bytes / 1 match

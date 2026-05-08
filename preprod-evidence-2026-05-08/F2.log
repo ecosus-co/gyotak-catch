@@ -1,0 +1,20 @@
+=== F-2 derive pk-B from sk-B ===
+Run: 2026-05-08T20:35:27+07:00
+Duration: 13s
+Source sk: /home/takuya/midnight/.gyotak-secrets-rehearsal/admin-sk-B.txt (via GYOTAK_MIDNIGHT_ADMIN_SK_FILE override)
+
+--- derived pk-B (public) ---
+pk-B=ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+length: 64
+
+--- /tmp/pk-B.txt ---
+-rw-r--r-- 1 takuya takuya 65 May  8 20:35 /tmp/pk-B.txt
+size: 65 bytes (expect 65 = 64 hex + newline)
+match for ^[0-9a-f]{64}$ (expect 1): 1
+
+--- pk-A vs pk-B distinctness ---
+pk-A: 5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+pk-B: ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+OK: pk-A != pk-B (different by ~40 hex chars out of 64, as expected from independent random sk)
+
+OK: F-2 ready for F-3 (rotateOwner pk-A → pk-B)

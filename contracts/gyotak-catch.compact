@@ -1,0 +1,71 @@
+pragma language_version >= 0.22;
+
+import CompactStandardLibrary;
+
+struct CatchRecord {
+  gpsHash: Bytes<32>,
+  photoHash: Bytes<32>,
+  region: Bytes<32>,
+  catchDate: Bytes<32>,
+  fishSpecies: Bytes<32>,
+  committedAt: Uint<64>,
+}
+
+export ledger batches: Map<Bytes<32>, CatchRecord>;
+export ledger owner: Bytes<32>;
+
+witness getGpsCoords(batchId: Bytes<32>): Vector<2, Uint<32>>;
+witness localSecretKey(): Bytes<32>;
+
+export pure circuit publicKey(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([pad(32, "gyotak:pk:"), sk]);
+}
+
+constructor(initialOwner: Bytes<32>) {
+  owner = disclose(initialOwner);
+}
+
+export circuit recordCatch(
+  batchId: Bytes<32>,
+  region: Bytes<32>,
+  catchDate: Bytes<32>,
+  fishSpecies: Bytes<32>,
+  photoHash: Bytes<32>,
+  timestamp: Uint<64>
+): [] {
+  const sk = localSecretKey();
+  assert(disclose(publicKey(sk) == owner), "unauthorized");
+
+  // Caller-supplied timestamp must lie within ±600s of the producing block's
+  // clock. blockTime predicates re-evaluate at settlement, so a tx that ages
+  // out of the window in mempool is rejected.
+  const t = disclose(timestamp);
+  const lower = (t - 600) as Uint<64>;
+  const upper = (t + 600) as Uint<64>;
+  assert(blockTimeGte(lower), "timestamp too far in past");
+  assert(blockTimeLte(upper), "timestamp too far in future");
+
+  assert(!batches.member(disclose(batchId)), "catch already exists");
+  const gps = getGpsCoords(batchId);
+  const gpsHash = persistentHash<Vector<2, Uint<32>>>(gps);
+  const record = CatchRecord {
+    gpsHash,
+    photoHash,
+    region,
+    catchDate,
+    fishSpecies,
+    committedAt: timestamp,
+  };
+  batches.insert(disclose(batchId), disclose(record));
+}
+
+export circuit rotateOwner(newOwner: Bytes<32>): [] {
+  const sk = localSecretKey();
+  assert(disclose(publicKey(sk) == owner), "unauthorized");
+  owner = disclose(newOwner);
+}
+
+export circuit verifyCatch(batchId: Bytes<32>): CatchRecord {
+  assert(batches.member(disclose(batchId)), "catch not found");
+  return batches.lookup(disclose(batchId));
+}

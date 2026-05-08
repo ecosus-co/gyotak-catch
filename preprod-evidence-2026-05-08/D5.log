@@ -1,0 +1,15 @@
+=== D-5 archive previous .contract-address.preprod ===
+Run: 2026-05-08T19:42:24+07:00
+
+--- before ---
+-rw-r--r-- 1 takuya takuya 64 May  7 18:33 .contract-address.preprod
+-rw-r--r-- 1 takuya takuya 64 Apr 29 14:30 .contract-address.preview
+-rw-r--r-- 1 takuya takuya 64 Apr 24 07:11 .contract-address.preview.bak
+
+OK: archived .contract-address.preprod -> .contract-address.preprod.bak-pre-score1-20260508-194224
+preserved address: a3f3a04476914b86eb914a4e3626519b1538395901fd376442a1fa8afffe836f
+
+--- after ---
+-rw-r--r-- 1 takuya takuya 64 May  7 18:33 .contract-address.preprod.bak-pre-score1-20260508-194224
+-rw-r--r-- 1 takuya takuya 64 Apr 29 14:30 .contract-address.preview
+-rw-r--r-- 1 takuya takuya 64 Apr 24 07:11 .contract-address.preview.bak

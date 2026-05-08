@@ -1,0 +1,42 @@
+
+[wallet] Restoring saved state from /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod
+  ✓ Building wallet
+
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+  Unshielded Address (send tNight here):
+  mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+──────────────────────────────────────────────────────────────
+
+[deploy] Starting wallet sync (no spinner wrap)...
+[sync emission #1 t=0.0s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #2 t=1.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #3 t=1.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #4 t=1.1s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #5 t=1.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #6 t=1.2s] isSynced=true dust.coins=1 night=1000000000
+[deploy] Sync complete in 1.2s after 6 emissions
+[20:21:58.460] [32mINFO[39m (6675): [36mwallet state persisted[39m
+    [35mdir[39m: "/home/takuya/midnight/gyotak-catch/midnight-level-db/preprod"
+
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+
+  Shielded (ZSwap)
+  └─ Address: mn_shield-addr_preprod1c8yf4dmy47pshyznhx4gtp89grzsqkg89etx58pnwftwcms9gapaglvjjvtkcy49sj5kc65qx5vsrmsw7fqd6aealz3gkeg2kzqfqes2xkw2n
+
+  Unshielded
+  ├─ Address: mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+  └─ Balance: 1,000,000,000 tNight
+
+  Dust
+  └─ Address: mn_dust_preprod1wd6rgfyh77awlww7rs2cufcun5uwpjvfcd2jhs3dqx2k42msxrlhzqa9l3l
+
+──────────────────────────────────────────────────────────────
+    DUST present: 2,215,350,427,999,999,996 (1 coins)
+
+  ✓ Dust tokens already available (2,215,350,427,999,999,996 DUST)
+[20:21:58.520] [32mINFO[39m (6675): [36mDeploying gyotak-catch contract...[39m
+    [35minitialOwner[39m: "5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99"

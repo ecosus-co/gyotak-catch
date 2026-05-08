@@ -1,0 +1,14 @@
+=== B-4 format sanity ===
+Run: 2026-05-08T19:08:47+07:00
+
+--- byte count (expect 65 = 64 hex + newline) ---
+65
+
+--- match count for ^[0-9a-f]{64}$ (expect 1, count only — no matched line printed) ---
+1
+
+--- match count for ^[0-9A-F]{64}$ (expect 0, openssl rand emits lowercase only) ---
+0
+
+--- line count (expect 1) ---
+1

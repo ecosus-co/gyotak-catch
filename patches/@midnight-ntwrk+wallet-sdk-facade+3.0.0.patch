@@ -1,0 +1,15 @@
+diff --git a/node_modules/@midnight-ntwrk/wallet-sdk-facade/dist/transaction.js b/node_modules/@midnight-ntwrk/wallet-sdk-facade/dist/transaction.js
+index baf5ba0..3fcfca9 100644
+--- a/node_modules/@midnight-ntwrk/wallet-sdk-facade/dist/transaction.js
++++ b/node_modules/@midnight-ntwrk/wallet-sdk-facade/dist/transaction.js
+@@ -28,8 +28,8 @@ export const finalizedTransactionTrait = {
+     },
+     hasTTLExpired(tx, creationTime, now) {
+         const defaultShieldedGracePeriod = ledger.LedgerParameters.initialParameters().dust.dustGracePeriodSeconds;
+-        const intentTTLs = pipe(tx.intents?.values().toArray() ?? [], Arr.map((i) => i.ttl), Arr.filterMap(DateTime.make));
+-        const hasDustPayments = pipe(tx.intents?.values().toArray() ?? [], Arr.flatMap((i) => i.dustActions?.spends ?? []), Arr.isNonEmptyArray);
++        const intentTTLs = pipe(Array.from(tx.intents?.values() ?? []), Arr.map((i) => i.ttl), Arr.filterMap(DateTime.make));
++        const hasDustPayments = pipe(Array.from(tx.intents?.values() ?? []), Arr.flatMap((i) => i.dustActions?.spends ?? []), Arr.isNonEmptyArray);
+         const hasShieldedOffers = tx.guaranteedOffer != null || (tx.fallibleOffer?.size ?? 0) == 0;
+         const maybeShieldedTTL = hasDustPayments || hasShieldedOffers
+             ? pipe(creationTime, DateTime.addDuration(Duration.seconds(Number(defaultShieldedGracePeriod))), Arr.of)

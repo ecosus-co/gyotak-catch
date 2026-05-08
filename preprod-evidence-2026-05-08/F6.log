@@ -1,0 +1,65 @@
+=== F-6 NEGATIVE recordCatch under sk-X (must fail) ===
+Run: 2026-05-08T20:55:36+07:00
+
+--- sk-X (third-party throwaway, metadata only) ---
+600 takuya:takuya 65 /tmp/admin-sk-X.txt
+byte count (expect 65):
+65
+hex match (expect 1):
+1
+
+--- expected outcome ---
+ZK proof gen will compute publicKey(sk-X) → some pk-X
+pk-X != current owner (pk-B); assert(publicKey(sk) == owner) fails
+proof gen rejects → no tx is submitted to chain
+
+--- saved state mtimes BEFORE ---
+1778248329 2026-05-08 20:52:09.848864761 +0700 3252364 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/dust.json
+1778248329 2026-05-08 20:52:09.845098654 +0700 3371 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/shielded.json
+1778248329 2026-05-08 20:52:09.845098654 +0700 736 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/unshielded.json
+
+--- run completed ---
+Run end: 2026-05-08T20:56:17+07:00
+Wall-clock elapsed: 41s
+Exit code: 1  (expect non-zero — failure is success for negative test)
+
+--- diagnostic flags (negative test inversions) ---
+unauthorized hits:       2   (expect >=1 — assertion message)
+proof-failure hits:      0   (expect >=1 — proving rejected)
+assert/constraint hits:  0   (informational)
+TX submitted hits:       0   (MUST be 0 — no chain write)
+Command failed hits:     1   (expect 1 — cli logs error)
+
+OK: F-6 NEGATIVE passed — sk-X rejected with assertion-style failure, no chain write
+
+--- key extracted lines ---
+  ✓ Building wallet
+  ✓ Dust tokens already available (2,231,422,578,999,999,993 DUST)
+  ✓ Configuring providers
+[20:56:15.036] [32mINFO[39m (8177): [36mrecordCatch...[39m
+  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ⠸ Submitting recordCatch  ⠼ Submitting recordCatch  ⠴ Submitting recordCatch  ⠦ Submitting recordCatch  ⠧ Submitting recordCatch  ⠇ Submitting recordCatch  ⠏ Submitting recordCatch  ⠋ Submitting recordCatch  ⠙ Submitting recordCatch  ⠹ Submitting recordCatch  ✗ Submitting recordCatch
+[20:56:16.923] [31mERROR[39m (8177): [36mCommand failed.[39m
+    [35mstack[39m: "Error: Unexpected error executing scoped transaction '<unnamed>': Error: failed assert: unauthorized\n    at scoped (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/midnight-js-contracts/dist/index.mjs:804:25)\n    at async Module.recordCatch (file:///home/takuya/midnight/gyotak-catch/src/api.ts:80:29)\n    at async Module.withStatus (file:///home/takuya/midnight/gyotak-catch/src/api.ts:199:24)\n    at async cmdRecordCatch (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:204:24)\n    at async run (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:257:17)\n    at async file:///home/takuya/midnight/gyotak-catch/src/preprod.ts:6:1"
+    err: "Unexpected error executing scoped transaction '<unnamed>': Error: failed assert: unauthorized"
+
+--- last 30 stderr lines ---
+2026-05-08 20:56:12        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:56:12        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+
+--- proof-server log tail (any check/prove activity?) ---
+[2m2026-05-08T13:45:59.982163Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:46:01.704334Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 1.722203s
+[2m2026-05-08T13:50:22.221353Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000126s
+[2m2026-05-08T13:50:57.509830Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000061s
+[2m2026-05-08T13:51:41.090569Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /check...
+[2m2026-05-08T13:51:41.091706Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /check HTTP/1.1; took 0.001175s
+[2m2026-05-08T13:51:41.178377Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:51:43.749889Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 2.571545s
+[2m2026-05-08T13:51:44.445892Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:51:46.076693Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 1.630830s
+
+--- saved state mtimes AFTER ---
+1778248576 2026-05-08 20:56:16.882555391 +0700 3253178 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/dust.json
+1778248576 2026-05-08 20:56:16.882555391 +0700 3371 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/shielded.json
+1778248576 2026-05-08 20:56:16.882555391 +0700 736 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/unshielded.json
+sk-X shredded

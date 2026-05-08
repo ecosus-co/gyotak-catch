@@ -1,0 +1,68 @@
+=== F-7 NEGATIVE rotateOwner under sk-X-2 (must fail) ===
+Run: 2026-05-08T20:58:57+07:00
+
+--- sk-X-2 (third-party throwaway, metadata only) ---
+600 takuya:takuya 65 /tmp/admin-sk-X-2.txt
+byte count (expect 65): 65
+hex match (expect 1): 1
+
+--- intent ---
+Caller: sk-X-2 (NOT current owner = pk-B)
+Target: --new-owner 0000000000000000000000000000000000000000000000000000000000000000 (sentinel, MUST never become owner)
+Expected: assert(publicKey(sk-X-2) == owner) fails locally → tx never submitted
+
+--- saved state mtimes BEFORE ---
+1778248576 2026-05-08 20:56:16.882555391 +0700 3253178 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/dust.json
+1778248576 2026-05-08 20:56:16.882555391 +0700 3371 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/shielded.json
+1778248576 2026-05-08 20:56:16.882555391 +0700 736 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/unshielded.json
+
+--- run completed ---
+Run end: 2026-05-08T20:59:35+07:00
+Wall-clock elapsed: 38s
+Exit code: 1  (expect non-zero — failure is success for negative test)
+
+--- diagnostic flags (negative test inversions) ---
+unauthorized hits:       2   (expect >=1)
+proof-failure hits:      0   (informational)
+assert/constraint hits:  2   (expect >=1)
+TX submitted hits:       0   (MUST be 0 — owner unchanged)
+Command failed hits:     1   (expect 1)
+scoped (local SDK) hits: 1   (expect >=1 — rejected at local sim)
+
+OK: F-7 NEGATIVE passed — sk-X-2 rejected with unauthorized assertion, owner unchanged
+
+--- key extracted lines ---
+  ✓ Building wallet
+  ✓ Dust tokens already available (2,233,034,643,999,999,993 DUST)
+  ✓ Configuring providers
+[20:59:32.967] [32mINFO[39m (8324): [36mrotateOwner...[39m
+  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ✗ Submitting rotateOwner
+[20:59:35.009] [31mERROR[39m (8324): [36mCommand failed.[39m
+    [35mstack[39m: "Error: Unexpected error executing scoped transaction '<unnamed>': Error: failed assert: unauthorized\n    at scoped (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/midnight-js-contracts/dist/index.mjs:804:25)\n    at async Module.rotateOwner (file:///home/takuya/midnight/gyotak-catch/src/api.ts:74:29)\n    at async Module.withStatus (file:///home/takuya/midnight/gyotak-catch/src/api.ts:199:24)\n    at async cmdRotateOwner (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:158:24)\n    at async run (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:263:17)\n    at async file:///home/takuya/midnight/gyotak-catch/src/preprod.ts:6:1"
+    err: "Unexpected error executing scoped transaction '<unnamed>': Error: failed assert: unauthorized"
+
+--- last 20 stderr lines ---
+2026-05-08 20:59:28        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:59:28        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+
+--- proof-server log tail (any new prove requests during F-7?) ---
+[2m2026-05-08T13:50:22.221353Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000126s
+[2m2026-05-08T13:50:57.509830Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000061s
+[2m2026-05-08T13:51:41.090569Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /check...
+[2m2026-05-08T13:51:41.091706Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /check HTTP/1.1; took 0.001175s
+[2m2026-05-08T13:51:41.178377Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:51:43.749889Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 2.571545s
+[2m2026-05-08T13:51:44.445892Z[0m [32m INFO[0m [2mmidnight_proof_server::endpoints[0m[2m:[0m Starting to process request for /prove...
+[2m2026-05-08T13:51:46.076693Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 POST /prove HTTP/1.1; took 1.630830s
+
+--- saved state mtimes AFTER ---
+1778248774 2026-05-08 20:59:34.970434885 +0700 3252850 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/dust.json
+1778248774 2026-05-08 20:59:34.970434885 +0700 3371 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/shielded.json
+1778248774 2026-05-08 20:59:34.970434885 +0700 736 /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod/unshielded.json
+sk-X-2 shredded
+
+--- post-F-7 chain owner re-verify (should still be pk-B) ---
+contract address: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+on-chain owner:   ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+expected pk:      ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+OK: match — Score-1 owner gate is correctly initialized on-chain

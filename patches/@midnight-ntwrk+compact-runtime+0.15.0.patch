@@ -1,0 +1,13 @@
+diff --git a/node_modules/@midnight-ntwrk/compact-runtime/dist/contract-dependencies.js b/node_modules/@midnight-ntwrk/compact-runtime/dist/contract-dependencies.js
+index f8688ae..cd931d6 100644
+--- a/node_modules/@midnight-ntwrk/compact-runtime/dist/contract-dependencies.js
++++ b/node_modules/@midnight-ntwrk/compact-runtime/dist/contract-dependencies.js
+@@ -165,7 +165,7 @@ const compactArrayLikeADTDependencies = (sparseCompactArrayLikeADT, states, depe
+  */
+ const compactMapADTDependencies = (sparseCompactMapADT, stateMap, dependencies) => {
+     const { keyType, valueType } = sparseCompactMapADT;
+-    stateMap.keys().forEach((key) => {
++    Array.from(stateMap.keys()).forEach((key) => {
+         if (keyType) {
+             compactValueDependencies(keyType.sparseType, alignedValueToCompactValue(keyType.descriptor, key), dependencies);
+         }

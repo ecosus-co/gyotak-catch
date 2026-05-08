@@ -1,0 +1,15 @@
+diff --git a/node_modules/@midnight-ntwrk/wallet-sdk-dust-wallet/dist/v1/Transacting.js b/node_modules/@midnight-ntwrk/wallet-sdk-dust-wallet/dist/v1/Transacting.js
+index 0e142b8..fbf2e76 100644
+--- a/node_modules/@midnight-ntwrk/wallet-sdk-dust-wallet/dist/v1/Transacting.js
++++ b/node_modules/@midnight-ntwrk/wallet-sdk-dust-wallet/dist/v1/Transacting.js
+@@ -156,9 +156,7 @@ export class TransactingCapabilityImplementation {
+         return this.calculateFee(mergedTx, ledgerParams);
+     }
+     static feeImbalance(transaction, totalFee) {
+-        const [_, imbalance] = transaction
+-            .imbalances(0, totalFee)
+-            .entries()
++        const [_, imbalance] = Array.from(transaction.imbalances(0, totalFee).entries())
+             .find(([tt, _]) => tt.tag === 'dust') ?? [];
+         return imbalance ?? 0n;
+     }

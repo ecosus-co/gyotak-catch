@@ -1,0 +1,58 @@
+=== E-1 deep cause extract ===
+Run: 2026-05-08T20:23:19+07:00 Exit: 0
+
+2026-05-08 20:23:18        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:23:18        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+=== walking deep cause ===
+ProvingError: ProvingError message=Failed to prove transaction
+ClientError: ClientError message=Failed to prove transaction
+ClientError keys: stack,message,cause,_tag
+  ClientError.stack = ClientError: Failed to prove transaction
+    at catch (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-capabilities/dist/proving/provingService.js:29:23)
+    at EffectPrimitive.effect_instruction_i0 (file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:579:51)
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/e
+  ClientError.message = Failed to prove transaction
+  ClientError._tag = ClientError
+
+=== ORIGINAL ERROR (deepest cause) ===
+type: object
+ctor: Error
+String: Error: 'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)
+    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core.js:320:39
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/fiberRuntime.js:983:46
+message: 'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)
+    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core.js:320:39
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/fiberRuntime.js:983:46
+name: Error
+code: undefined
+stack:
+Error: 'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)
+    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core.js:320:39
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/fiberRuntime.js:983:46
+    at __wbg_Error_e17e777aac105295 (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/ledger-v8/midnight_ledger_wasm_bg.js:9236:17)
+    at wasm://wasm/027bc1de:wasm-function[15690]:0x647a35
+    at wasm://wasm/027bc1de:wasm-function[5616]:0x430760
+    at wasm://wasm/027bc1de:wasm-function[260]:0x878ba
+    at wasm://wasm/027bc1de:wasm-function[2866]:0x349f18
+    at wasm://wasm/027bc1de:wasm-function[14488]:0x63a678
+    at wasm://wasm/027bc1de:wasm-function[16050]:0x652a1c
+    at __wbg_adapter_8 (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/ledger-v8/midnight_ledger_wasm_bg.js:1344:10)
+    at real (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/ledger-v8/midnight_ledger_wasm_bg.js:219:20)
+    at node:internal/process/task_queues:151:7
+own props: stack,message
+  orig.stack = Error: 'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)
+    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/in
+  orig.message = 'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)
+    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27
+    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/
+
+full JSON of orig: {"stack":"Error: 'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)\n    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)\n    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27\n    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core.js:320:39\n    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/fiberRuntime.js:983:46\n    at __wbg_Error_e17e777aac105295 (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/ledger-v8/midnight_ledger_wasm_bg.js:9236:17)\n    at wasm://wasm/027bc1de:wasm-function[15690]:0x647a35\n    at wasm://wasm/027bc1de:wasm-function[5616]:0x430760\n    at wasm://wasm/027bc1de:wasm-function[260]:0x878ba\n    at wasm://wasm/027bc1de:wasm-function[2866]:0x349f18\n    at wasm://wasm/027bc1de:wasm-function[14488]:0x63a678\n    at wasm://wasm/027bc1de:wasm-function[16050]:0x652a1c\n    at __wbg_adapter_8 (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/ledger-v8/midnight_ledger_wasm_bg.js:1344:10)\n    at real (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/ledger-v8/midnight_ledger_wasm_bg.js:219:20)\n    at node:internal/process/task_queues:151:7","message":"'prove' returned an error: (FiberFailure) ClientError: Failed to connect to Proof Server: Transport error (POST http://127.0.0.1:6300/prove)\n    at Object.RequestError (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/wallet-sdk-prover-client/dist/effect/HttpProverClient.js:59:36)\n    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core-effect.js:131:27\n    at file:///home/takuya/midnight/gyotak-catch/node_modules/effect/dist/esm/internal/core.js:320:39\

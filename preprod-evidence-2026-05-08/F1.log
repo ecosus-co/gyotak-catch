@@ -1,0 +1,29 @@
+=== F-1 generate rehearsal sk-B ===
+Run: 2026-05-08T20:34:44+07:00
+umask: 0077
+
+--- rehearsal dir ---
+700 takuya:takuya /home/takuya/midnight/.gyotak-secrets-rehearsal
+
+--- sk-B file (metadata only, no content) ---
+openssl exit code: 0
+stdout from openssl: (none — redirected to file)
+exists: yes
+600 takuya:takuya 65 /home/takuya/midnight/.gyotak-secrets-rehearsal/admin-sk-B.txt
+
+--- format sanity (count-only) ---
+wc -c (expect 65):
+65
+grep -cE '^[0-9a-f]{64}$' (expect 1):
+1
+wc -l (expect 1):
+1
+
+--- isolation check ---
+sk-A path: ~/midnight/.gyotak-secrets/admin-sk.txt
+sk-B path: /home/takuya/midnight/.gyotak-secrets-rehearsal/admin-sk-B.txt
+sk-A exists: yes
+sk-B exists: yes
+(sk-A and sk-B are independent files — no overwrite)
+
+OK: sk-B generated, mode 600, format valid

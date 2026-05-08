@@ -1,0 +1,6 @@
+=== B-1 secrets-dir creation ===
+Run: 2026-05-08T19:08:18+07:00
+umask in effect: 0077
+
+--- stat (expect: 700 takuya:takuya) ---
+700 takuya:takuya /home/takuya/midnight/.gyotak-secrets

@@ -1,0 +1,42 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 2,
+  "EndLine": 2,
+  "StartColumn": 2,
+  "EndColumn": 67,
+  "Match": "CF_API_TOKEN=cfut_vun29R...",
+  "Secret": "cfut_vun29R...",
+  "File": ".env",
+  "SymlinkFile": "",
+  "Commit": "",
+  "Entropy": 5.086411,
+  "Author": "",
+  "Email": "",
+  "Date": "",
+  "Message": "",
+  "Tags": [],
+  "Fingerprint": ".env:generic-api-key:2"
+ },
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 42,
+  "EndLine": 42,
+  "StartColumn": 8,
+  "EndColumn": 50,
+  "Match": "WORKER_TOKEN = 'gyota...'",
+  "Secret": "gyota...",
+  "File": "dist/scripts/realign-d1-with-chain.js",
+  "SymlinkFile": "",
+  "Commit": "",
+  "Entropy": 3.6714056,
+  "Author": "",
+  "Email": "",
+  "Date": "",
+  "Message": "",
+  "Tags": [],
+  "Fingerprint": "dist/scripts/realign-d1-with-chain.js:generic-api-key:42"
+ }
+]

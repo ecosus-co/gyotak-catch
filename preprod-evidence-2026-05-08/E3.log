@@ -1,0 +1,15 @@
+=== E-3 on-chain owner verify ===
+Run: 2026-05-08T20:32:19+07:00
+Contract address (from .contract-address.preprod): 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+Expected pk (from /tmp/pk-preprod-final.txt): 5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+
+Wall-clock elapsed: 7s
+Exit code: 0  (0=match, 2=contract not found, 3=mismatch)
+
+--- stdout ---
+contract address: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+on-chain owner:   5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+expected pk:      5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+OK: match — Score-1 owner gate is correctly initialized on-chain
+
+--- stderr ---

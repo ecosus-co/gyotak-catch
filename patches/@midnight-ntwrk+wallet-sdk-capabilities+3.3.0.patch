@@ -1,0 +1,21 @@
+diff --git a/node_modules/@midnight-ntwrk/wallet-sdk-capabilities/dist/balancer/Imbalances.js b/node_modules/@midnight-ntwrk/wallet-sdk-capabilities/dist/balancer/Imbalances.js
+index edbebda..d0d1e2d 100644
+--- a/node_modules/@midnight-ntwrk/wallet-sdk-capabilities/dist/balancer/Imbalances.js
++++ b/node_modules/@midnight-ntwrk/wallet-sdk-capabilities/dist/balancer/Imbalances.js
+@@ -35,14 +35,12 @@ export const Imbalances = new (class {
+     }
+     merge = (a, b) => {
+         const allTokenTypes = this.typeSet(a).union(this.typeSet(b));
+-        return this.fromEntries(allTokenTypes
+-            .values()
++        return this.fromEntries(Array.from(allTokenTypes.values())
+             .map((tokenType) => {
+             const aValue = this.getValue(a, tokenType);
+             const bValue = this.getValue(b, tokenType);
+             return [tokenType, aValue + bValue];
+         })
+-            .filter(([, value]) => value !== 0n)
+-            .toArray());
++            .filter(([, value]) => value !== 0n));
+     };
+ })();

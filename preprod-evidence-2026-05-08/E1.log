@@ -1,0 +1,67 @@
+=== E-1 deploy:preprod (Score-1 contract) ===
+Run start: 2026-05-08T20:13:47+07:00
+initial-owner pk: 5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+
+--- saved state mtimes BEFORE ---
+1778245532 2026-05-08 20:05:32.718722273 +0700 3249030 midnight-level-db/preprod/dust.json
+1778245532 2026-05-08 20:05:32.711522273 +0700 3371 midnight-level-db/preprod/shielded.json
+1778245532 2026-05-08 20:05:32.711522273 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- existing .contract-address.* BEFORE ---
+-rw-r--r-- 1 takuya takuya 64 May  7 18:33 .contract-address.preprod.bak-pre-score1-20260508-194224
+-rw-r--r-- 1 takuya takuya 64 Apr 29 14:30 .contract-address.preview
+-rw-r--r-- 1 takuya takuya 64 Apr 24 07:11 .contract-address.preview.bak
+
+--- run completed ---
+Run end: 2026-05-08T20:14:27+07:00
+Wall-clock elapsed: 40s (.66 min)
+Exit code: 1  (124=timeout SIGTERM, 137=SIGKILL, 0=clean exit, non-zero=script error)
+
+--- saved state mtimes AFTER ---
+1778246067 2026-05-08 20:14:27.652274503 +0700 3248856 midnight-level-db/preprod/dust.json
+1778246067 2026-05-08 20:14:27.648491453 +0700 3371 midnight-level-db/preprod/shielded.json
+1778246067 2026-05-08 20:14:27.648491453 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- existing .contract-address.* AFTER ---
+-rw-r--r-- 1 takuya takuya 64 May  7 18:33 .contract-address.preprod.bak-pre-score1-20260508-194224
+-rw-r--r-- 1 takuya takuya 64 Apr 29 14:30 .contract-address.preview
+-rw-r--r-- 1 takuya takuya 64 Apr 24 07:11 .contract-address.preview.bak
+
+--- WARNING: .contract-address.preprod not created ---
+
+--- diagnostic flags ---
+fresh-start hits:        0   (expect 0)
+restore hits:            1   (expect 1)
+Sync complete hits:      1   (expect 1)
+wallet state persisted:  2   (expect >=1)
+Deployed contract hits:  0   (expect 1)
+Saved contract address:  0   (expect 1)
+submission/1016/pruning: /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/E1.raw.stdout:0
+/home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/E1.raw.stderr:0   (expect 0)
+unauthorized hits:       /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/E1.raw.stdout:0
+/home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/E1.raw.stderr:0   (expect 0 — deploy doesn't invoke localSecretKey witness)
+
+STOP: deploy failed or incomplete — see stderr / log.
+
+--- key extracted lines from stdout ---
+  ✓ Building wallet
+  Wallet Overview                            Network: preprod
+  Unshielded Address (send tNight here):
+[sync emission #13 t=2.1s] isSynced=true dust.coins=1 night=1000000000
+[deploy] Sync complete in 2.1s after 13 emissions
+[20:14:25.547] [32mINFO[39m (6175): [36mwallet state persisted[39m
+  Wallet Overview                            Network: preprod
+  └─ Address: mn_shield-addr_preprod1c8yf4dmy47pshyznhx4gtp89grzsqkg89etx58pnwftwcms9gapaglvjjvtkcy49sj5kc65qx5vsrmsw7fqd6aealz3gkeg2kzqfqes2xkw2n
+  ├─ Address: mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+  └─ Balance: 1,000,000,000 tNight
+  └─ Address: mn_dust_preprod1wd6rgfyh77awlww7rs2cufcun5uwpjvfcd2jhs3dqx2k42msxrlhzqa9l3l
+    DUST present: 2,211,605,476,999,999,996 (1 coins)
+  ✓ Dust tokens already available (2,211,605,476,999,999,996 DUST)
+  ✓ Configuring providers
+[20:14:25.604] [32mINFO[39m (6175): [36mDeploying gyotak-catch contract...[39m
+  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ✗ Deploying contract
+[20:14:27.657] [32mINFO[39m (6175): [36mwallet state persisted[39m
+
+--- last 20 stderr lines ---
+2026-05-08 20:14:26        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:14:26        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure

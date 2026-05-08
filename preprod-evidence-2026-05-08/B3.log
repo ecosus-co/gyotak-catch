@@ -1,0 +1,4 @@
+=== B-3 chmod 600 verify ===
+Run: 2026-05-08T19:08:19+07:00
+--- stat (expect: 600 takuya:takuya) ---
+600 takuya:takuya /home/takuya/midnight/.gyotak-secrets/admin-sk.txt

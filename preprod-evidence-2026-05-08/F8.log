@@ -1,0 +1,62 @@
+=== F-8 rotateOwner pk-B → pk-A (cleanup rotation) ===
+Run start: 2026-05-08T21:02:01+07:00
+Contract: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+Current owner (pre): pk-B = ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+Target owner (post): pk-A = 5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+Caller sk: ~/midnight/.gyotak-secrets/admin-sk.txt (currently = sk-B, set by F-5)
+Proof server: http://127.0.0.1:6300 (.env default, local Docker)
+
+--- saved state mtimes BEFORE ---
+1778248774 2026-05-08 20:59:34.970434885 +0700 3252850 midnight-level-db/preprod/dust.json
+1778248774 2026-05-08 20:59:34.970434885 +0700 3371 midnight-level-db/preprod/shielded.json
+1778248774 2026-05-08 20:59:34.970434885 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- proof-server health ---
+{"status":"ok","timestamp":"2026-05-08 14:02:01.274739668 +00:00:00"} (code=200)
+
+--- active sk metadata (should still be sk-B) ---
+600 takuya:takuya 65 /home/takuya/midnight/.gyotak-secrets/admin-sk.txt
+(sk-B contents not displayed)
+
+--- run completed ---
+Run end: 2026-05-08T21:03:04+07:00
+Wall-clock elapsed: 63s
+Exit code: 0
+
+--- saved state mtimes AFTER ---
+1778248983 2026-05-08 21:03:03.892898362 +0700 3253480 midnight-level-db/preprod/dust.json
+1778248983 2026-05-08 21:03:03.889136785 +0700 3371 midnight-level-db/preprod/shielded.json
+1778248983 2026-05-08 21:03:03.889136785 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- diagnostic flags ---
+fresh-start hits:        0   (expect 0)
+restore hits:            1   (expect 1)
+Sync complete hits:      1   (expect 1)
+wallet state persisted:  2   (expect >=1)
+rotateOwner... INFO log: 1   (expect 1)
+rotateOwner TX submitted: 1   (expect 1)
+unauthorized hits:       0   (expect 0 — sk-B is current owner)
+proof-failure hits:      0   (expect 0)
+submission/1016/pruning: 0   (expect 0)
+
+OK: F-8 rotateOwner pk-B → pk-A succeeded — chain owner now expected to be pk-A
+
+--- key extracted lines ---
+  ✓ Building wallet
+  ✓ Dust tokens already available (2,234,572,305,999,999,993 DUST)
+  ✓ Configuring providers
+[21:02:35.687] [32mINFO[39m (8478): [36mrotateOwner...[39m
+    [35mnewOwner[39m: "5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99"
+  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner[21:03:02.867] [32mINFO[39m (8478): [36mTransaction 00a9fa5888581bd8f2d7dd492db9442c28cf3c85f0beb0c9fc9766a4c0a301ccc0 added in block 692289[39m
+  ✓ Submitting rotateOwner
+  ─ rotateOwner TX submitted
+    txId:        00a9fa5888581bd8f2d7dd492db9442c28cf3c85f0beb0c9fc9766a4c0a301ccc0
+    blockHeight: 692289
+    blockHash:   59b31795022a3c1fd2b88195a4915f6fa1c4f6448e78638575414d0bad613a47
+    newOwner:    5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+
+--- post-F-8 chain owner verify (should now be pk-A) ---
+contract address: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+on-chain owner:   5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+expected pk:      5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+OK: match — Score-1 owner gate is correctly initialized on-chain

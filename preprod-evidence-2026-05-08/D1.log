@@ -1,0 +1,7 @@
+=== D-1 source vs generated d.ts mtime ===
+Run: 2026-05-08T19:41:38+07:00
+
+1778235356 2026-05-08 17:15:56.728137607 +0700 contracts/gyotak-catch.compact
+1778235373 2026-05-08 17:16:13.093487868 +0700 contracts/managed/contract/index.d.ts
+
+OK: d.ts mtime (1778235373) >= source mtime (1778235356)

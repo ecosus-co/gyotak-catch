@@ -1,0 +1,28 @@
+=== B-5 shell-history audit ===
+Run: 2026-05-08T19:09:05+07:00
+Note: this audit emits COUNTS only, never matched lines, in case any
+      command text in history references the secret-key path.
+
+--- ~/.bash_history exists? ---
+yes (1964 bytes)
+
+--- ~/.bash_history matches for 'admin-sk' (count) ---
+0
+0
+
+--- ~/.bash_history matches for 'gyotak-secrets' (count) ---
+0
+0
+
+--- ~/.bash_history matches for 'rand -hex 32' (count) ---
+0
+0
+
+--- ~/.bash_history matches for 64-hex pattern (count, would catch leaked sk) ---
+0
+0
+
+--- HISTFILE env / shell histsize info ---
+HISTFILE=(unset in this non-interactive shell)
+Note: Claude Code Bash tool runs non-interactive shells; commands
+executed via this tool typically do NOT append to ~/.bash_history.

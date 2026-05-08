@@ -1,0 +1,20 @@
+=== Phase 3-B remediation #1 + #2 — 2026-05-09 ===
+Run: 2026-05-09T04:47:54+07:00
+
+## Remediation #1: .gitignore .env* glob
+BEFORE:  .env  (exact match, missed .env.mainnet.bak)
+AFTER:   .env*  +  !.env.example (tracked template preserved)
+
+## Remediation #2: WORKER_TOKEN env var
+BEFORE:  scripts/realign-d1-with-chain.ts:49 hardcoded literal
+AFTER:   process.env.WORKER_TOKEN with fail-fast at module init
+         + .env.example placeholder added
+
+## Verification
+typecheck: EXIT=0
+gitleaks finding count: 4 → 3 (after archive) → 2 (after #1+#2)
+remaining findings:
+  - .env  (CF_API_TOKEN + WALLET_SEED, gitignored, OK)
+  - dist/scripts/realign-d1-with-chain.js  (compiled output, dist/ gitignored, OK)
+source-tracked secret count: 0
+expected for git push: 0 findings (gitleaks --no-git scans tree, not just tracked)

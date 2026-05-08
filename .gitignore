@@ -1,0 +1,68 @@
+node_modules
+dist
+contracts/managed
+*.log
+# Evidence directories — keep their .log files tracked (referenced in
+# deployments/gyotak-catch.md Section 8 as Foundation reviewer source material).
+!preprod-evidence-*/*.log
+
+# Environment files — exclude all .env* variants (covers .env, .env.local,
+# .env.mainnet.bak, etc.). Keep .env.example tracked as the documented template.
+.env*
+!.env.example
+
+# Admin secret key — never commit. Canonical location is
+# ~/midnight/.gyotak-secrets/admin-sk.txt (chmod 600), outside this repo.
+# These patterns are defense-in-depth in case the key is ever copied or
+# symlinked into the working tree, including under docs/ which is
+# otherwise public-by-default.
+.gyotak-secrets/
+admin-sk*.txt
+admin-sk*.hex
+*.admin-sk
+
+# Generic secret-glob defenses — apply at any depth (no leading slash).
+# Care: do not match generated artefacts. The Compact toolchain produces
+# *.prover / *.verifier under contracts/managed (already ignored), so
+# *.key / keys/ are intentionally NOT listed here to avoid confusion.
+*.sk
+*.priv
+*.seed
+seed.txt
+*-secret.txt
+*-secrets.txt
+*-private.txt
+
+# Runtime artifacts (sensitive — ZK design hides these)
+# .gps-*.json contain plaintext GPS coordinates that the contract intentionally
+# hides via persistentHash. NEVER commit these — leaking them defeats the
+# entire ZK traceability design.
+.gps-*.json
+
+# Wallet sync state — contains derived wallet sub-key data and tx history
+midnight-level-db/
+midnight-level-db.*/
+
+# Backup files (development history, never commit)
+*.bak
+*.bak-*
+*.before-*
+*-*.bak
+contracts/managed.bak*
+
+# Old contract address backups (only .contract-address.preprod is kept)
+.contract-address
+.contract-address.preview
+.contract-address.preview.bak*
+.contract-address.preprod.bak*
+
+# Patches backup
+patches.matrix-realign-*.bak/
+
+# Crontab backups (operational artefacts, not for public repo)
+crontab.bak*
+crontab.before-*
+
+# Internal progress / resumption docs (not for public application)
+docs/STATUS-*.md
+docs/RESUMPTION_GUIDE.md

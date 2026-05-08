@@ -1,0 +1,19 @@
+=== D-3 show-balance.mjs preprod (90s timeout) ===
+Run: 2026-05-08T19:44:51+07:00
+Wall-clock elapsed: 94s
+Exit code: 124  (124=SIGTERM by timeout, 137=SIGKILL, 0=clean exit)
+
+--- stdout (last 40 lines) ---
+Syncing.................................
+--- stderr (last 20 lines) ---
+2026-05-08 19:43:24        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 19:43:25        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+
+--- diagnostic summary ---
+STOP: process did not finish in 90s (rc=124).
+  syncing-dot count in stdout: 33
+  This matches the analytical prediction: scripts/show-balance.mjs uses
+  startWithSecretKeys() without restore() (lines 90-92), so it cold-syncs.
+  Cold sync on Preprod historically takes ~170 minutes.
+  → Recommend: skip show-balance.mjs for D-3, defer balance proof to E-1
+    (api.ts buildWalletAndWaitForFunds DOES use the persistence path).

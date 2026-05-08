@@ -1,0 +1,117 @@
+=== Manual 64-hex string audit ===
+Run: 2026-05-09T04:31:31+07:00
+
+Method: grep -rEn '\b[0-9a-fA-F]{64}\b' across tracked tree, excluding
+        node_modules, dist, contracts/managed (gitignored), *.log.
+
+--- raw counts per file (top 30) ---
+Files with 64-hex matches: 24
+--- file-by-file findings (first 12 hex chars shown, rest masked) ---
+
+▸ ./.contract-address
+  1:86d82287fc...  (occurs 0x, first line )
+
+▸ ./.contract-address.preprod
+  1:53b8303fc7...  (occurs 0x, first line )
+
+▸ ./.contract-address.preview
+  1:86d82287fc...  (occurs 0x, first line )
+
+▸ ./.contract-address.preview.bak
+  1:86d82287fc...  (occurs 0x, first line )
+
+▸ ./.env
+  1:87c65f72b5...  (occurs 0x, first line )
+
+▸ ./.env.mainnet.bak
+  1:44bc386206...  (occurs 0x, first line )
+
+▸ ./docs/MAINNET-DEPLOY-CHECKLIST.md
+  15:a3f3a0447...  (occurs 0x, first line )
+  282:00000000...  (occurs 0x, first line )
+
+▸ ./docs/PREPROD_MIGRATION_DAY2_2026-05-07.md
+  41:a3f3a0447...  (occurs 0x, first line )
+  42:40e7e1645...  (occurs 0x, first line )
+  50:e96616c15...  (occurs 0x, first line )
+  51:af5570f5a...  (occurs 0x, first line )
+
+▸ ./docs/STATUS-2026-05-08.md
+  174:53b8303f...  (occurs 0x, first line )
+  175:5e8c984d...  (occurs 0x, first line )
+  176:a3f3a044...  (occurs 0x, first line )
+  81:a3f3a0447...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E1-deep.raw.stdout
+  44:5e8c984df...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E1-diag.raw.stdout
+  47:5e8c984df...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E1-diag2.raw.stdout
+  45:5e8c984df...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E1-diag3.raw.stdout
+  42:5e8c984df...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E1-retry.raw.stdout
+  3:5e8c984df5...  (occurs 0x, first line )
+  58:5e8c984df...  (occurs 0x, first line )
+  59:53b8303fc...  (occurs 0x, first line )
+  63:53b8303fc...  (occurs 0x, first line )
+  64:5e8c984df...  (occurs 0x, first line )
+  7:5e8c984df5...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E1.raw.stdout
+  3:5e8c984df5...  (occurs 0x, first line )
+  58:5e8c984df...  (occurs 0x, first line )
+  7:5e8c984df5...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/E3.raw.stdout
+  1:53b8303fc7...  (occurs 0x, first line )
+  2:5e8c984df5...  (occurs 0x, first line )
+  3:5e8c984df5...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F3.hosted-403.raw.stdout
+  3:ebdcf034ed...  (occurs 0x, first line )
+  53:53b8303fc...  (occurs 0x, first line )
+  55:ebdcf034e...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F3.raw.stdout
+  3:ebdcf034ed...  (occurs 0x, first line )
+  53:53b8303fc...  (occurs 0x, first line )
+  55:ebdcf034e...  (occurs 0x, first line )
+  62:333d52cc6...  (occurs 0x, first line )
+  63:ebdcf034e...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F4.raw.stdout
+  1:53b8303fc7...  (occurs 0x, first line )
+  2:ebdcf034ed...  (occurs 0x, first line )
+  3:ebdcf034ed...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F5.raw.stdout
+  13:e96616c15...  (occurs 0x, first line )
+  61:53b8303fc...  (occurs 0x, first line )
+  63:524f54415...  (occurs 0x, first line )
+  70:0325fea26...  (occurs 0x, first line )
+  71:e96616c15...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F6.raw.stdout
+  13:e96616c15...  (occurs 0x, first line )
+  58:53b8303fc...  (occurs 0x, first line )
+  60:4e45472d5...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F7.raw.stdout
+  3:0000000000...  (occurs 0x, first line )
+  47:53b8303fc...  (occurs 0x, first line )
+  49:000000000...  (occurs 0x, first line )
+
+▸ ./preprod-evidence-2026-05-08/F8.raw.stdout
+  3:5e8c984df5...  (occurs 0x, first line )
+  47:53b8303fc...  (occurs 0x, first line )
+  49:5e8c984df...  (occurs 0x, first line )
+  56:59b317950...  (occurs 0x, first line )
+  57:5e8c984df...  (occurs 0x, first line )
+
+▸ ./scripts/check-orphan.ts
+  34:8f36e4166...  (occurs 0x, first line )

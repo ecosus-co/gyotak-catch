@@ -1,0 +1,4 @@
+=== A-1 secrets-dir pre-existence check ===
+Run: 2026-05-08T19:07:40+07:00 (logged retroactively from earlier turn)
+Result: OK: 未作成
+Command: test -e ~/midnight/.gyotak-secrets && echo STOP... || echo OK...

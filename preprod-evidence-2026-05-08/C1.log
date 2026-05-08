@@ -1,0 +1,28 @@
+=== C derive-owner-pk verification ===
+Run: 2026-05-08T19:36:14+07:00
+Working dir: /home/takuya/midnight/gyotak-catch
+Command: npm run --silent preprod -- derive-owner-pk (run twice, filter ^[0-9a-f]{64}$)
+
+--- call 1 ---
+pk1=5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+pk1 length: 64
+duration: 16s
+
+--- call 2 ---
+pk2=5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+pk2 length: 64
+duration: 12s
+
+--- C-1 determinism check ---
+OK: deterministic (pk1 == pk2, both non-empty 64-hex)
+
+--- C-2 length check ---
+OK: pk length 64
+
+--- C-3 save pk1 to /tmp/pk-preprod.txt (public info) ---
+/tmp/pk-preprod.txt size: 65 bytes (expect 65 = 64 hex + newline)
+/tmp/pk-preprod.txt match for ^[0-9a-f]{64}$ (count, expect 1):
+1
+
+--- recorded pk (public) ---
+5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99

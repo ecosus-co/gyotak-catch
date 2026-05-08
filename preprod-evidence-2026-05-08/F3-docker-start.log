@@ -1,0 +1,86 @@
+=== docker start midnight-proof ===
+Run: 2026-05-08T20:43:10+07:00
+
+--- before ---
+NAMES            STATUS                     PORTS
+midnight-proof   Exited (255) 7 hours ago   0.0.0.0:6300->6300/tcp, [::]:6300->6300/tcp
+
+--- docker start ---
+midnight-proof
+exit: 0
+
+--- after (immediate) ---
+NAMES            STATUS         PORTS
+midnight-proof   Up 2 seconds   0.0.0.0:6300->6300/tcp, [::]:6300->6300/tcp
+
+--- wait 3 sec for proof-server to bind port ---
+
+--- after (3s later) ---
+NAMES            STATUS         PORTS
+midnight-proof   Up 5 seconds   0.0.0.0:6300->6300/tcp, [::]:6300->6300/tcp
+
+--- container logs (last 20 lines) ---
+[2m2026-05-08T03:50:29.020665Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000129s
+[2m2026-05-08T04:00:45.852444Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000236s
+[2m2026-05-08T04:10:23.503097Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000216s
+[2m2026-05-08T04:20:20.753597Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000128s
+[2m2026-05-08T04:30:19.508084Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000118s
+[2m2026-05-08T04:40:20.617877Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000190s
+[2m2026-05-08T04:50:19.009619Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000152s
+[2m2026-05-08T05:00:45.220982Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000217s
+[2m2026-05-08T05:10:21.748803Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000141s
+[2m2026-05-08T05:20:18.756658Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000121s
+[2m2026-05-08T05:30:24.491719Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000156s
+[2m2026-05-08T05:40:17.711889Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000129s
+[2m2026-05-08T05:50:15.742997Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000121s
+[2m2026-05-08T06:00:16.484447Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000057s
+[2m2026-05-08T06:10:19.739899Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000077s
+[2m2026-05-08T06:20:16.164341Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000076s
+[2m2026-05-08T06:30:17.514653Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000237s
+[2m2026-05-08T06:40:17.027718Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000135s
+[2m2026-05-08T06:50:36.918671Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000936s
+[2m2026-05-08T13:43:15.575838Z[0m [32m INFO[0m [2mmidnight_proof_server[0m[2m:[0m Ensuring zswap key material is available...
+
+--- health probe http://127.0.0.1:6300/ ---
+curl: (56) Recv failure: Connection reset by peer
+code=000 time=0.003139s
+curl failed (need more wait time?)
+
+--- POST /prove with empty body to confirm header validation ---
+curl: (56) Recv failure: Connection reset by peer
+
+--- code=000 ---
+
+--- listening sockets ---
+LISTEN 0      4096         0.0.0.0:6300       0.0.0.0:*          
+LISTEN 0      4096            [::]:6300          [::]:*          
+
+=== post-warmup probe ===
+Run: 2026-05-08T20:43:42+07:00
+Wait elapsed: 0s
+
+--- container status ---
+NAMES            STATUS          PORTS
+midnight-proof   Up 29 seconds   0.0.0.0:6300->6300/tcp, [::]:6300->6300/tcp
+
+--- last 10 container log lines ---
+[2m2026-05-08T06:10:19.739899Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000077s
+[2m2026-05-08T06:20:16.164341Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000076s
+[2m2026-05-08T06:30:17.514653Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000237s
+[2m2026-05-08T06:40:17.027718Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000135s
+[2m2026-05-08T06:50:36.918671Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.000936s
+[2m2026-05-08T13:43:15.575838Z[0m [32m INFO[0m [2mmidnight_proof_server[0m[2m:[0m Ensuring zswap key material is available...
+[2m2026-05-08T13:43:18.287228Z[0m [32m INFO[0m [2mactix_server::builder[0m[2m:[0m starting 4 workers
+[2m2026-05-08T13:43:18.287761Z[0m [32m INFO[0m [2mactix_server::server[0m[2m:[0m Actix runtime found; starting in Actix runtime
+[2m2026-05-08T13:43:18.287907Z[0m [32m INFO[0m [2mactix_server::server[0m[2m:[0m starting service: "actix-web-service-0.0.0.0:6300", workers: 4, listening on: 0.0.0.0:6300
+[2m2026-05-08T13:43:42.091045Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 172.17.0.1 GET / HTTP/1.1; took 0.001594s
+
+--- health probe http://127.0.0.1:6300/ ---
+{"status":"ok","timestamp":"2026-05-08 13:43:42.392029049 +00:00:00"}
+code=200 time=0.001446s
+
+--- POST /prove with empty body (should be 400 with header tag msg) ---
+expected header tag 'midnight:(proof-preimage-versioned,option(proving-data),option(fr-bls)):', got ''
+--- code=400 ---
+
+OK: proof-server is up at http://127.0.0.1:6300/

@@ -1,0 +1,32 @@
+=== F-9 restore active sk to sk-A ===
+Run: 2026-05-08T21:05:55+07:00
+
+--- pre-restore state (metadata only) ---
+total 16
+drwx------ 2 takuya takuya 4096 May  8 20:50 .
+drwxr-xr-x 7 takuya takuya 4096 May  8 20:34 ..
+-rw------- 1 takuya takuya   65 May  8 19:08 admin-sk.A.suspended
+-rw------- 1 takuya takuya   65 May  8 20:50 admin-sk.txt
+
+active before (= sk-B per F-5 swap): 600 65 /home/takuya/midnight/.gyotak-secrets/admin-sk.txt
+suspended slot (= sk-A backup):      600 65 /home/takuya/midnight/.gyotak-secrets/admin-sk.A.suspended
+
+--- post-restore state ---
+total 12
+drwx------ 2 takuya takuya 4096 May  8 21:05 .
+drwxr-xr-x 7 takuya takuya 4096 May  8 20:34 ..
+-rw------- 1 takuya takuya   65 May  8 19:08 admin-sk.txt
+
+active after restore: 600 takuya:takuya 65 /home/takuya/midnight/.gyotak-secrets/admin-sk.txt
+suspended slot:       (removed)
+
+--- format sanity (count-only) ---
+wc -c (expect 65): 65
+hex match (expect 1): 1
+
+OK: content-hash preserved across mv (sk-A restored intact)
+
+--- sanity: derive-owner-pk should now produce pk-A ---
+derived from active sk: 5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+expected (pk-A):        5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+OK: active sk derives to pk-A — F-9 restoration verified

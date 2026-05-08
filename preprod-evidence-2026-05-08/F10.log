@@ -1,0 +1,38 @@
+
+=== F-10 shred rehearsal sk-B ===
+Run: 2026-05-08T21:06:08+07:00
+
+--- rehearsal dir state BEFORE shred ---
+total 12
+drwx------ 2 takuya takuya 4096 May  8 20:34 .
+drwxr-xr-x 7 takuya takuya 4096 May  8 20:34 ..
+-rw------- 1 takuya takuya   65 May  8 20:34 admin-sk-B.txt
+
+shred exit: 0
+
+--- rehearsal dir state AFTER ---
+(rehearsal dir removed)
+
+--- /tmp residuals check (should NOT contain admin-sk-X / sk-B) ---
+(no admin-sk*.txt in /tmp — clean)
+
+--- /tmp pk-* (public info, OK to remain) ---
+-rw-r--r-- 1 takuya takuya 65 May  8 20:35 /tmp/pk-B.txt
+-rw-r--r-- 1 takuya takuya 65 May  8 19:46 /tmp/pk-preprod-final.txt
+-rw-r--r-- 1 takuya takuya 65 May  8 19:36 /tmp/pk-preprod.txt
+
+--- final ~/midnight/.gyotak-secrets/ state ---
+total 12
+drwx------ 2 takuya takuya 4096 May  8 21:05 .
+drwxr-xr-x 6 takuya takuya 4096 May  8 21:06 ..
+-rw------- 1 takuya takuya   65 May  8 19:08 admin-sk.txt
+
+--- diagnostic helper scripts (added during this session) ---
+-rw-r--r-- 1 takuya takuya 1001 May  8 19:55 /home/takuya/midnight/gyotak-catch/scripts/_d3alt-balance-via-restore.ts
+-rw-r--r-- 1 takuya takuya 4771 May  8 20:21 /home/takuya/midnight/gyotak-catch/scripts/_e1-diag-deploy.ts
+-rw-r--r-- 1 takuya takuya 3097 May  8 20:22 /home/takuya/midnight/gyotak-catch/scripts/_e1-extract-deep.ts
+-rw-r--r-- 1 takuya takuya 1570 May  8 20:32 /home/takuya/midnight/gyotak-catch/scripts/_e3-verify-owner.ts
+-rw-r--r-- 1 takuya takuya  234 Apr 29 04:04 /home/takuya/midnight/gyotak-catch/scripts/_sanity-tmp.ts
+(decision needed: keep / promote-rename / delete — see report)
+
+OK: F-10 cleanup complete — rehearsal sk-B shredded, dir removed

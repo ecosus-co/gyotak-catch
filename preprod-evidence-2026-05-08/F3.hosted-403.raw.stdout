@@ -1,0 +1,61 @@
+
+> gyotak-catch@1.0.0 preprod
+> PATH=/home/takuya/.local/node22/bin:$PATH NODE_OPTIONS='--max-old-space-size=8192' node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm src/preprod.ts rotate-owner --new-owner ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+
+
+[wallet] Restoring saved state from /home/takuya/midnight/gyotak-catch/midnight-level-db/preprod
+  ✓ Building wallet
+
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+  Unshielded Address (send tNight here):
+  mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+──────────────────────────────────────────────────────────────
+
+[deploy] Starting wallet sync (no spinner wrap)...
+[sync emission #1 t=0.0s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #2 t=1.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #3 t=1.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #4 t=1.3s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #5 t=1.3s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #6 t=1.5s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #7 t=1.5s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #8 t=1.6s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #9 t=1.8s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #10 t=1.9s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #11 t=2.2s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #12 t=2.3s] isSynced=false dust.coins=1 night=1000000000
+[sync emission #13 t=2.3s] isSynced=true dust.coins=1 night=1000000000
+[deploy] Sync complete in 2.3s after 13 emissions
+[20:38:10.144] [32mINFO[39m (7264): [36mwallet state persisted[39m
+    [35mdir[39m: "/home/takuya/midnight/gyotak-catch/midnight-level-db/preprod"
+
+──────────────────────────────────────────────────────────────
+  Wallet Overview                            Network: preprod
+──────────────────────────────────────────────────────────────
+
+  Shielded (ZSwap)
+  └─ Address: mn_shield-addr_preprod1c8yf4dmy47pshyznhx4gtp89grzsqkg89etx58pnwftwcms9gapaglvjjvtkcy49sj5kc65qx5vsrmsw7fqd6aealz3gkeg2kzqfqes2xkw2n
+
+  Unshielded
+  ├─ Address: mn_addr_preprod156r935l92s4r6ze2k4nffn0k5en25jqprhg9x3xl3lm0ltkaam8q4py66s
+  └─ Balance: 1,000,000,000 tNight
+
+  Dust
+  └─ Address: mn_dust_preprod1wd6rgfyh77awlww7rs2cufcun5uwpjvfcd2jhs3dqx2k42msxrlhzqa9l3l
+
+──────────────────────────────────────────────────────────────
+    DUST present: 2,223,085,951,999,999,995 (1 coins)
+
+  ✓ Dust tokens already available (2,223,085,951,999,999,995 DUST)
+  ✓ Configuring providers
+[20:38:14.511] [32mINFO[39m (7264): [36mJoined contract at address: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f[39m
+[20:38:14.513] [32mINFO[39m (7264): [36mrotateOwner...[39m
+    [35mnewOwner[39m: "ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35"
+  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ✗ Submitting rotateOwner
+[20:38:19.295] [32mINFO[39m (7264): [36mwallet state persisted[39m
+    [35mdir[39m: "/home/takuya/midnight/gyotak-catch/midnight-level-db/preprod"
+[20:38:19.347] [31mERROR[39m (7264): [36mCommand failed.[39m
+    [35mstack[39m: "Error: Unexpected error submitting scoped transaction '<unnamed>': Error: 'prove' returned an error: Error: Failed Proof Server response: url=\"https://proof-server.preprod.midnight.network/prove\", code=\"403\", status=\"Forbidden\"\n    at scoped (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/midnight-js-contracts/dist/index.mjs:842:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Module.rotateOwner (file:///home/takuya/midnight/gyotak-catch/src/api.ts:74:29)\n    at async Module.withStatus (file:///home/takuya/midnight/gyotak-catch/src/api.ts:199:24)\n    at async cmdRotateOwner (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:158:24)\n    at async run (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:263:17)\n    at async file:///home/takuya/midnight/gyotak-catch/src/preprod.ts:6:1"
+    err: "Unexpected error submitting scoped transaction '<unnamed>': Error: 'prove' returned an error: Error: Failed Proof Server response: url=\"https://proof-server.preprod.midnight.network/prove\", code=\"403\", status=\"Forbidden\""

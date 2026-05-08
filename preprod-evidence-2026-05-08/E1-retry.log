@@ -1,0 +1,67 @@
+=== E-1 retry deploy (hosted proof-server override) ===
+Run start: 2026-05-08T20:29:04+07:00
+Override: PROOF_SERVER_URI=https://proof-server.preprod.midnight.network
+initial-owner pk: 5e8c984df5acc1948c6a9b969e92f6d1c237257a8cc0e4b629335ec6818dcc99
+
+--- saved state mtimes BEFORE ---
+1778246597 2026-05-08 20:23:17.962628233 +0700 3249212 midnight-level-db/preprod/dust.json
+1778246597 2026-05-08 20:23:17.962628233 +0700 3371 midnight-level-db/preprod/shielded.json
+1778246597 2026-05-08 20:23:17.962628233 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- existing .contract-address.* BEFORE ---
+-rw-r--r-- 1 takuya takuya 64 May  7 18:33 .contract-address.preprod.bak-pre-score1-20260508-194224
+-rw-r--r-- 1 takuya takuya 64 Apr 29 14:30 .contract-address.preview
+-rw-r--r-- 1 takuya takuya 64 Apr 24 07:11 .contract-address.preview.bak
+
+--- run completed ---
+Run end: 2026-05-08T20:30:14+07:00
+Wall-clock elapsed: 70s (1.16 min)
+Exit code: 0
+
+--- saved state mtimes AFTER ---
+1778247014 2026-05-08 20:30:14.044251619 +0700 3249466 midnight-level-db/preprod/dust.json
+1778247014 2026-05-08 20:30:14.040466431 +0700 3371 midnight-level-db/preprod/shielded.json
+1778247014 2026-05-08 20:30:14.040466431 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- existing .contract-address.* AFTER ---
+-rw-r--r-- 1 takuya takuya 64 May  8 20:30 .contract-address.preprod
+-rw-r--r-- 1 takuya takuya 64 May  7 18:33 .contract-address.preprod.bak-pre-score1-20260508-194224
+-rw-r--r-- 1 takuya takuya 64 Apr 29 14:30 .contract-address.preview
+-rw-r--r-- 1 takuya takuya 64 Apr 24 07:11 .contract-address.preview.bak
+
+--- new contract address ---
+53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+length: 64
+
+OK: new address differs from old Score-3 contract
+
+--- diagnostic flags ---
+fresh-start hits:        0
+restore hits:            1
+Sync complete hits:      1
+wallet state persisted:  2
+Deployed contract hits:  1
+Saved contract address:  1
+proof-failure hits:      /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/E1-retry.raw.stdout:0   (expect 0)
+submission/1016/pruning: /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/E1-retry.raw.stdout:0   (expect 0)
+
+OK: deploy succeeded.
+
+--- key extracted lines ---
+  ✓ Building wallet
+  Wallet Overview                            Network: preprod
+  Unshielded Address (send tNight here):
+[sync emission #13 t=1.9s] isSynced=true dust.coins=1 night=1000000000
+  Wallet Overview                            Network: preprod
+  └─ Balance: 1,000,000,000 tNight
+    DUST present: 2,219,186,315,999,999,996 (1 coins)
+  ✓ Dust tokens already available (2,219,186,315,999,999,996 DUST)
+  ✓ Configuring providers
+[20:29:42.578] [32mINFO[39m (6941): [36mDeploying gyotak-catch contract...[39m
+  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract  ⠙ Deploying contract  ⠹ Deploying contract  ⠸ Deploying contract  ⠼ Deploying contract  ⠴ Deploying contract  ⠦ Deploying contract  ⠧ Deploying contract  ⠇ Deploying contract  ⠏ Deploying contract  ⠋ Deploying contract[20:30:12.677] [32mINFO[39m (6941): [36mDeployed contract at address: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f[39m
+  ✓ Deploying contract
+[20:30:12.678] [32mINFO[39m (6941): [36mSaved contract address.[39m
+
+--- last 10 stderr lines ---
+2026-05-08 20:29:43        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:29:43        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure

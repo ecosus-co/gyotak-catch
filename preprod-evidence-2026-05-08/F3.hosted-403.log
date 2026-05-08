@@ -1,0 +1,53 @@
+=== F-3 rotateOwner pk-A → pk-B ===
+Run start: 2026-05-08T20:37:37+07:00
+Contract: 53b8303fc72a83abd3d26e5372102a58cc9be55c42e383695b46a0f2d33e285f
+Override: PROOF_SERVER_URI=https://proof-server.preprod.midnight.network
+Caller sk source: ~/midnight/.gyotak-secrets/admin-sk.txt (sk-A, default location)
+New owner pk: ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35
+
+--- saved state mtimes BEFORE ---
+1778247014 2026-05-08 20:30:14.044251619 +0700 3249466 midnight-level-db/preprod/dust.json
+1778247014 2026-05-08 20:30:14.040466431 +0700 3371 midnight-level-db/preprod/shielded.json
+1778247014 2026-05-08 20:30:14.040466431 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- run completed ---
+Run end: 2026-05-08T20:38:19+07:00
+Wall-clock elapsed: 42s
+Exit code: 1
+
+--- saved state mtimes AFTER ---
+1778247499 2026-05-08 20:38:19.288352441 +0700 3249860 midnight-level-db/preprod/dust.json
+1778247499 2026-05-08 20:38:19.280779249 +0700 3371 midnight-level-db/preprod/shielded.json
+1778247499 2026-05-08 20:38:19.280779249 +0700 736 midnight-level-db/preprod/unshielded.json
+
+--- diagnostic flags ---
+fresh-start hits:        0   (expect 0)
+restore hits:            1   (expect 1)
+Sync complete hits:      1   (expect 1)
+wallet state persisted:  2   (expect >=1)
+rotateOwner... INFO log: 1   (expect 1)
+rotateOwner TX submitted: 0   (expect 1)
+unauthorized hits:       /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/F3.raw.stdout:0   (expect 0 — sk-A is the legitimate owner)
+proof-failure hits:      /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/F3.raw.stdout:0   (expect 0)
+submission/1016/pruning: /home/takuya/midnight/gyotak-catch/preprod-evidence-2026-05-08/F3.raw.stderr:0   (expect 0)
+
+STOP: rotateOwner failed — see logs
+
+--- key extracted lines ---
+  ✓ Building wallet
+  Wallet Overview                            Network: preprod
+  Unshielded Address (send tNight here):
+  Wallet Overview                            Network: preprod
+  └─ Balance: 1,000,000,000 tNight
+    DUST present: 2,223,085,951,999,999,995 (1 coins)
+  ✓ Dust tokens already available (2,223,085,951,999,999,995 DUST)
+  ✓ Configuring providers
+[20:38:14.513] [32mINFO[39m (7264): [36mrotateOwner...[39m
+    [35mnewOwner[39m: "ebdcf034ed1995428c2e26e63f678c93db4f8fced478c8011a50e690557f7d35"
+  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ⠴ Submitting rotateOwner  ⠦ Submitting rotateOwner  ⠧ Submitting rotateOwner  ⠇ Submitting rotateOwner  ⠏ Submitting rotateOwner  ⠋ Submitting rotateOwner  ⠙ Submitting rotateOwner  ⠹ Submitting rotateOwner  ⠸ Submitting rotateOwner  ⠼ Submitting rotateOwner  ✗ Submitting rotateOwner
+[20:38:19.347] [31mERROR[39m (7264): [36mCommand failed.[39m
+    [35mstack[39m: "Error: Unexpected error submitting scoped transaction '<unnamed>': Error: 'prove' returned an error: Error: Failed Proof Server response: url=\"https://proof-server.preprod.midnight.network/prove\", code=\"403\", status=\"Forbidden\"\n    at scoped (file:///home/takuya/midnight/gyotak-catch/node_modules/@midnight-ntwrk/midnight-js-contracts/dist/index.mjs:842:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Module.rotateOwner (file:///home/takuya/midnight/gyotak-catch/src/api.ts:74:29)\n    at async Module.withStatus (file:///home/takuya/midnight/gyotak-catch/src/api.ts:199:24)\n    at async cmdRotateOwner (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:158:24)\n    at async run (file:///home/takuya/midnight/gyotak-catch/src/cli.ts:263:17)\n    at async file:///home/takuya/midnight/gyotak-catch/src/preprod.ts:6:1"
+
+--- last 10 stderr lines ---
+2026-05-08 20:38:10        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure
+2026-05-08 20:38:10        RPC-CORE: subscribeRuntimeVersion(): RuntimeVersion:: disconnected from wss://rpc.preprod.midnight.network/: 1000:: Normal Closure

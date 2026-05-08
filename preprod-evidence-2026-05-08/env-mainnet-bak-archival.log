@@ -1,0 +1,17 @@
+=== .env.mainnet.bak archival ===
+Run: 2026-05-09T04:42:03+07:00
+Action: mv to ~/midnight/.gyotak-secrets-mainnet-archive/
+Reason: Takuya has no memory of creating it (2026-04-24); likely abandoned snapshot
+Original: ~/midnight/gyotak-catch/.env.mainnet.bak
+Archived: ~/midnight/.gyotak-secrets-mainnet-archive/env-mainnet-bak-archived-20260509.txt
+Final disposition: shred -u 24 hours later (2026-05-10) if no objection
+Content invariant (sha256): preserved
+
+Pre-move sha256:  855211b401c576c4b89fbdd147d0a1654a9745a145094628d0b6f1bdeb1570a3
+Post-move sha256: 855211b401c576c4b89fbdd147d0a1654a9745a145094628d0b6f1bdeb1570a3
+
+Gitleaks re-scan finding count: 3
+Gitleaks re-scan files with findings:
+  - /home/takuya/midnight/gyotak-catch/.env
+  - /home/takuya/midnight/gyotak-catch/dist/scripts/realign-d1-with-chain.js
+  - /home/takuya/midnight/gyotak-catch/scripts/realign-d1-with-chain.ts
