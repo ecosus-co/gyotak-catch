@@ -4,6 +4,14 @@
 
 ECOSUS CO., LTD. is a Pranburi-based Thai company operating GYOTAK, a sashimi-grade flash-frozen fish brand serving both B2B and B2C channels. Our product differentiator is end-to-end traceability: every batch is published with provable origin metadata so customers and auditors can independently verify a shipment. The applicant is Takuya Ogura, Chairman, ECOSUS CO., LTD. The gyotak-catch contract publishes catch records — region, date, species, photo hash, GPS hash — onto Midnight as cryptographic commitments. We request Mainnet deployment authorization for the Score-1 design described below.
 
+## 1.1 Risk rubric
+
+| Category | Score | Summary |
+| --- | --- | --- |
+| Privacy-at-risk | 1 | Catch records' raw witness data (GPS coordinates, photo bytes) never leaves the operator's device; only their hashes reach the chain (see § 2 and § 6 for the witness model). The contract stores no user PII. |
+| Value-at-risk | 1 | The contract holds no on-chain assets — neither tokens, NFTs, nor escrowed value. Adversarial misuse cannot result in user fund loss. The single state field at risk is the `batches: Map<Bytes<32>, CatchRecord>` map (see § 3 for full threat model). |
+| State-space-at-risk | 1 | Owner-gated writes prevent unbounded ledger growth: an adversary's `recordCatch` attempt fails before any chain state change. Negative tests F-6 and F-7 demonstrate three independent enforcement layers (SDK simulation / proof generation / chain settlement). Detailed justification in § 4, with empirical evidence in § 5. |
+
 ## 2. Contract at a glance
 
 The contract source is `contracts/gyotak-catch.compact` (71 lines, `pragma language_version >= 0.22`, single file with no imports beyond `CompactStandardLibrary`). It exposes two ledger fields and four circuits.
