@@ -1,5 +1,5 @@
 import { appendFileSync } from 'node:fs';
-import { PreprodConfig } from '../src/config.js';
+import { MainnetConfig } from '../src/config.js';
 import { createLogger } from '../src/logger-utils.js';
 import * as api from '../src/api.js';
 import {
@@ -11,11 +11,14 @@ import {
 } from '../src/cli.js';
 import type { GyotakCatchProviders } from '../src/common-types.js';
 
-const LOG_FILE = '/tmp/mirror-pending-preprod.log';
+const LOG_FILE = '/tmp/mirror-pending-mainnet.log';
 const CF_ACCOUNT_ID = '3f77cb87bd4075a1a60b7ee7aff41947';
 const CF_DATABASE_ID = '03134e75-87c3-49a1-a9a0-93474911ac52';
 const D1_URL = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/d1/database/${CF_DATABASE_ID}/query`;
 const BATCH_LIMIT = 5;
+// DRY_RUN=1|true|yes: read-only rehearsal. Fetches pending rows, builds the wallet and
+// runs the on-chain pre-check, but submits NO transactions and makes NO D1 writes.
+const DRY_RUN = /^(1|true|yes)$/i.test(process.env.DRY_RUN ?? '');
 
 interface PendingRow {
   id: number | string;
@@ -210,10 +213,10 @@ const probeProofServer = async (url: string): Promise<void> => {
 };
 
 const main = async (): Promise<number> => {
-  const config = new PreprodConfig();
+  const config = new MainnetConfig();
   const logger = await createLogger(config.logDir);
 
-  log(`mirror-pending starting (limit=${BATCH_LIMIT})`);
+  log(`mirror-pending starting (limit=${BATCH_LIMIT}${DRY_RUN ? ', DRY_RUN' : ''})`);
 
   try {
     await probeProofServer(config.proofServer);
@@ -244,6 +247,7 @@ const main = async (): Promise<number> => {
   let success = 0;
   let recovered = 0;
   let failed = 0;
+  let wouldSubmit = 0;
   const contractAddress = readContractAddress();
   try {
     const providers = await api.configureProviders(walletCtx, config);
@@ -255,10 +259,12 @@ const main = async (): Promise<number> => {
       // (別経路で submit 済みなのに D1 status が 'pending' に戻っていた状態の自己治癒)
       try {
         if (await isAlreadyOnChain(providers, contractAddress, row.batch_id)) {
-          await markAlreadyOnChain(row.id);
+          if (!DRY_RUN) await markAlreadyOnChain(row.id);
           recovered += 1;
           log(
-            `row id=${row.id} batch=${row.batch_id} → already on-chain (pre-check), marking confirmed (recovery)`,
+            `row id=${row.id} batch=${row.batch_id} → already on-chain (pre-check)${
+              DRY_RUN ? ' [DRY_RUN: would mark confirmed]' : ', marking confirmed (recovery)'
+            }`,
           );
           continue;
         }
@@ -270,6 +276,16 @@ const main = async (): Promise<number> => {
             preCheckErr instanceof Error ? preCheckErr.message : String(preCheckErr)
           }`,
         );
+      }
+
+      if (DRY_RUN) {
+        wouldSubmit += 1;
+        log(
+          `[DRY_RUN] row id=${row.id} batch=${row.batch_id} → WOULD submit recordCatch ` +
+            `(region=${row.region ?? ''} date=${row.catch_date ?? ''} species=${row.fish_species ?? ''} ` +
+            `photoHash=${row.image_hash} gps=${row.gps_lat},${row.gps_lng}) — no tx sent, D1 unchanged`,
+        );
+        continue;
       }
 
       await markSubmitting(row.id);
@@ -327,6 +343,16 @@ const main = async (): Promise<number> => {
     }
   } finally {
     await walletCtx.wallet.stop();
+  }
+
+  if (DRY_RUN) {
+    log(
+      `done [DRY_RUN]: would_submit=${wouldSubmit} already_on_chain=${recovered} pending_rows=${rows.length} (no tx sent, D1 unchanged)`,
+    );
+    console.log(
+      `[DRY_RUN] would_submit=${wouldSubmit} already_on_chain=${recovered} pending_rows=${rows.length}`,
+    );
+    return 0;
   }
 
   log(`done: success=${success} recovered=${recovered} failed=${failed}`);
