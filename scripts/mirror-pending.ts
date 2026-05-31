@@ -1,4 +1,3 @@
-import { appendFileSync } from 'node:fs';
 import { MainnetConfig } from '../src/config.js';
 import { createLogger } from '../src/logger-utils.js';
 import * as api from '../src/api.js';
@@ -11,7 +10,6 @@ import {
 } from '../src/cli.js';
 import type { GyotakCatchProviders } from '../src/common-types.js';
 
-const LOG_FILE = '/tmp/mirror-pending-mainnet.log';
 const CF_ACCOUNT_ID = '3f77cb87bd4075a1a60b7ee7aff41947';
 const CF_DATABASE_ID = '03134e75-87c3-49a1-a9a0-93474911ac52';
 const D1_URL = `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/d1/database/${CF_DATABASE_ID}/query`;
@@ -35,22 +33,15 @@ interface PendingRow {
 
 const stamp = (): string => new Date().toISOString();
 
+// Logs to stdout/stderr only; the cron's `>>` redirect owns the file
+// destination. (Previously this also appended to a hardcoded LOG_FILE, which
+// duplicated every line once the cron redirect pointed at the same path.)
 const log = (line: string): void => {
-  const msg = `[${stamp()}] ${line}\n`;
-  process.stdout.write(msg);
-  try {
-    appendFileSync(LOG_FILE, msg);
-  } catch {
-    // swallow log-file write errors — don't take down the mirror run
-  }
+  process.stdout.write(`[${stamp()}] ${line}\n`);
 };
 
 const logErr = (line: string): void => {
-  const msg = `[${stamp()}] ${line}\n`;
-  process.stderr.write(msg);
-  try {
-    appendFileSync(LOG_FILE, msg);
-  } catch {}
+  process.stderr.write(`[${stamp()}] ${line}\n`);
 };
 
 const d1Query = async <T = unknown>(sql: string, params: unknown[] = []): Promise<T[]> => {
