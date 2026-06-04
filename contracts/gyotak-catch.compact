@@ -8,6 +8,11 @@ struct CatchRecord {
   region: Bytes<32>,
   catchDate: Bytes<32>,
   fishSpecies: Bytes<32>,
+  // v2: up to 10 plaintext "romaji:weight" slots (UTF-8, zero-padded to 32
+  // bytes; unused slots all-zero). Public/disclosed, same trust model as
+  // fishSpecies. fishSpecies is retained as the headline/primary species for
+  // backward compatibility with existing readers.
+  fishManifest: Vector<10, Bytes<32>>,
   committedAt: Uint<64>,
 }
 
@@ -30,6 +35,7 @@ export circuit recordCatch(
   region: Bytes<32>,
   catchDate: Bytes<32>,
   fishSpecies: Bytes<32>,
+  fishManifest: Vector<10, Bytes<32>>,
   photoHash: Bytes<32>,
   timestamp: Uint<64>
 ): [] {
@@ -54,6 +60,7 @@ export circuit recordCatch(
     region,
     catchDate,
     fishSpecies,
+    fishManifest,
     committedAt: timestamp,
   };
   batches.insert(disclose(batchId), disclose(record));
