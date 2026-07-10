@@ -1,13 +1,13 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { toHex } from '@midnight-ntwrk/midnight-js/utils';
 import { getNetworkId } from '@midnight-ntwrk/midnight-js/network-id';
 import { type Logger } from 'pino';
 import * as api from './api.js';
 import { type Config } from './config.js';
-import { registerGpsCoords, loadAdminSecretKey } from './witnesses.js';
+import { registerGpsCoords, registerGpsNonce, loadAdminSecretKey } from './witnesses.js';
 import { pureCircuits } from '../contracts/managed/contract/index.js';
 import { type DeployedGyotakCatchContract } from './common-types.js';
 
@@ -353,16 +353,25 @@ const cmdDeriveOwnerPk = (): void => {
 };
 
 const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): Promise<void> => {
-  const [batchId, region, catchDate, fishSpecies, photoUrl, gpsLat, gpsLng, latMinStr, latMaxStr, lonMinStr, lonMaxStr, fishItemsJson] = args;
+  const nonceFlag = parseFlag(args, '--nonce');
+  // Remove --nonce <value> from args before positional parsing
+  const positional = args.filter((_, i) => {
+    if (args[i] === '--nonce') return false;
+    if (i > 0 && args[i - 1] === '--nonce') return false;
+    return true;
+  });
+  const [batchId, region, catchDate, fishSpecies, photoUrl, gpsLat, gpsLng, latMinStr, latMaxStr, lonMinStr, lonMaxStr, fishItemsJson] = positional;
   if (!batchId || !region || !catchDate || !fishSpecies || !photoUrl || !gpsLat || !gpsLng || !latMinStr || !latMaxStr || !lonMinStr || !lonMaxStr) {
     throw new Error(
-      'Usage: record-catch <batchId> <region> <catchDate> <fishSpecies> <photoUrl> <gpsLat> <gpsLng> <latMin> <latMax> <lonMin> <lonMax> [fishItemsJson]\n' +
+      'Usage: record-catch <batchId> <region> <catchDate> <fishSpecies> <photoUrl> <gpsLat> <gpsLng> <latMin> <latMax> <lonMin> <lonMax> [fishItemsJson] [--nonce <64hex>]\n' +
       '  latMin/latMax/lonMin/lonMax: GPS bounding box in degrees (v3 range proof).\n' +
+      '  --nonce: optional 32-byte hex nonce for GPS hiding commitment.\n' +
+      '           If omitted, a random nonce is generated and printed.\n' +
+      '           The nonce is NOT persisted to D1 (use mirror-pending for production).\n' +
       '  fishItemsJson (optional): catch_reports.fish_items JSON; builds the v2 fishManifest.\n' +
       '  Omit it to record an all-zero manifest.',
     );
   }
-  // v2: optional plaintext fish manifest from a fish_items JSON string.
   const fishManifest = buildFishManifest(fishItemsJson ?? null);
 
   // Fetch photo and compute SHA-256 of its bytes.
@@ -378,15 +387,22 @@ const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): P
     'photo sha256 computed',
   );
 
-  // Provide GPS coords via a temp JSON so the witness can resolve them at runtime.
-  const gpsJsonPath = resolve(process.cwd(), `.gps-${Date.now()}.json`);
-  writeFileSync(
-    gpsJsonPath,
-    JSON.stringify({
-      [batchId]: [degreesToUint32(gpsLat).toString(), degreesToUint32(gpsLng).toString()],
-    }),
-  );
-  process.env.GPS_JSON = gpsJsonPath;
+  // v3: register GPS coords directly (replaces broken GPS_JSON file mechanism).
+  registerGpsCoords(batchId, degreesToUint32(gpsLat), degreesToUint32(gpsLng));
+
+  // v3: nonce for GPS hiding commitment (in-memory only, NOT persisted to D1).
+  let nonce: Uint8Array;
+  if (nonceFlag) {
+    const clean = nonceFlag.replace(/^0x/i, '');
+    if (!/^[0-9a-fA-F]{64}$/.test(clean)) {
+      throw new Error(`--nonce must be 64 hex characters, got ${clean.length}`);
+    }
+    nonce = Uint8Array.from(clean.match(/.{2}/g)!.map((b) => parseInt(b, 16)));
+  } else {
+    nonce = randomBytes(32);
+    console.log(`  generated nonce: ${Buffer.from(nonce).toString('hex')}`);
+  }
+  registerGpsNonce(batchId, nonce);
 
   api.setLogger(logger);
   const walletCtx = await api.buildWalletAndWaitForFunds(config, readSeed());
@@ -419,9 +435,9 @@ const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): P
     console.log(`    blockHeight: ${txData.blockHeight}`);
     console.log(`    blockHash:   ${txData.blockHash ?? '(n/a)'}`);
     console.log(`    photoHash:   ${hexFromBytes(photoHash)}`);
+    console.log(`    nonce:       ${Buffer.from(nonce).toString('hex')}`);
     console.log('');
   } finally {
-    // Save latest sync state before stop (no-op when walletStateDir not configured).
     await api.saveWalletStates(walletCtx.wallet, config.walletStateDir);
     await walletCtx.wallet.stop();
   }
