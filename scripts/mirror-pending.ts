@@ -1,13 +1,20 @@
-import { MainnetConfig } from '../src/config.js';
+import { randomBytes } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { MainnetConfig, PreprodConfig, type Config } from '../src/config.js';
 import { createLogger } from '../src/logger-utils.js';
 import * as api from '../src/api.js';
 import {
   readSeed,
   readContractAddress,
   submitCatchRecord,
+  buildFishManifest,
+  bytes32ToAscii,
   textToBytes32,
   hexFromBytes,
+  degreesToUint32,
 } from '../src/cli.js';
+import { registerGpsCoords, registerGpsNonce } from '../src/witnesses.js';
 import type { GyotakCatchProviders } from '../src/common-types.js';
 
 const CF_ACCOUNT_ID = '3f77cb87bd4075a1a60b7ee7aff41947';
@@ -29,7 +36,20 @@ interface PendingRow {
   region: string;
   catch_date: string;
   fish_species: string;
+  // v2: parent catch_reports.fish_items JSON (per-report; repeats across sibling
+  // image rows). Fed to buildFishManifest to produce the plaintext fishManifest.
+  fish_items: string;
 }
+
+// Preview the manifest a row would record (non-empty slots), for DRY_RUN logging.
+const manifestPreview = (fishItemsJson: string): string => {
+  const filled = buildFishManifest(fishItemsJson)
+    .map((s) => bytes32ToAscii(s))
+    .filter((a) => a.length > 0);
+  return filled.length
+    ? `[${filled.map((x) => `"${x}"`).join(', ')}] (${filled.length}/10 slots)`
+    : '<empty manifest>';
+};
 
 const stamp = (): string => new Date().toISOString();
 
@@ -71,6 +91,67 @@ const d1Query = async <T = unknown>(sql: string, params: unknown[] = []): Promis
   return body.result?.[0]?.results ?? [];
 };
 
+// ── GPS nonce persistence ──────────────────────────────────────────────────
+// Ensures each batchId gets exactly one nonce, persisted in D1 before the
+// on-chain submit. PRIMARY KEY on batch_id prevents overwrites structurally.
+
+const getOrCreateNonce = async (batchId: string): Promise<Uint8Array> => {
+  // 1. Generate a candidate nonce and attempt INSERT with ON CONFLICT DO NOTHING.
+  //    If the row already exists (re-mirror or race), the INSERT silently does nothing.
+  const candidate = randomBytes(32);
+  const candidateHex = Buffer.from(candidate).toString('hex');
+  await d1Query(
+    'INSERT INTO catch_gps_nonces (batch_id, gps_nonce) VALUES (?, ?) ON CONFLICT(batch_id) DO NOTHING',
+    [batchId, candidateHex],
+  );
+  // 2. Always read back from D1 — the authoritative value is what D1 has,
+  //    not what we generated. This guarantees chain and D1 stay in sync
+  //    even if a concurrent writer raced us.
+  const rows = await d1Query<{ gps_nonce: string }>(
+    'SELECT gps_nonce FROM catch_gps_nonces WHERE batch_id = ?',
+    [batchId],
+  );
+  if (rows.length === 0) {
+    throw new Error(
+      `getOrCreateNonce: INSERT succeeded but SELECT returned empty for batch_id=${batchId}. ` +
+      `This should never happen — aborting to prevent nonce-less submit.`,
+    );
+  }
+  return Uint8Array.from(Buffer.from(rows[0].gps_nonce, 'hex'));
+};
+
+// ── GPS bounding box lookup ────────────────────────────────────────────────
+// regions.json: [{ name, latMin, latMax, lonMin, lonMax }] (degrees, WGS84)
+interface RegionBox {
+  name: string;
+  latMin: number;
+  latMax: number;
+  lonMin: number;
+  lonMax: number;
+}
+
+const loadRegions = (): RegionBox[] => {
+  const p = resolve(import.meta.url.replace('file://', ''), '..', '..', 'regions.json');
+  try {
+    return JSON.parse(readFileSync(p, 'utf8')) as RegionBox[];
+  } catch {
+    return [];
+  }
+};
+
+const findBox = (regions: RegionBox[], lat: number, lng: number): RegionBox => {
+  const match = regions.find(
+    (r) => lat >= r.latMin && lat <= r.latMax && lng >= r.lonMin && lng <= r.lonMax,
+  );
+  if (!match) {
+    throw new Error(
+      `GPS (${lat}, ${lng}) does not fall within any region in regions.json. ` +
+      `Add a bounding box for this area before mirroring.`,
+    );
+  }
+  return match;
+};
+
 // catch_reports has no fish_species column; the Japanese species name lives in
 // r.title, so we use that (textToBytes32 truncates to 32 bytes). region falls
 // back to r.location (Thai) when location_en is null. Image-level GPS takes
@@ -88,7 +169,8 @@ const fetchPending = async (): Promise<PendingRow[]> =>
        COALESCE(i.photo_taken_at, r.photo_taken_at) AS photo_taken_at,
        COALESCE(r.location_en, r.location, '') AS region,
        COALESCE(r.date, '') AS catch_date,
-       COALESCE(r.title, '') AS fish_species
+       COALESCE(r.title, '') AS fish_species,
+       COALESCE(r.fish_items, '') AS fish_items
      FROM catch_report_images i
      LEFT JOIN catch_reports r ON r.id = i.catch_report_id
      WHERE i.midnight_status = 'pending'
@@ -120,6 +202,7 @@ const markConfirmed = async (
   id: PendingRow['id'],
   txHash: string,
   blockNumber: number | null,
+  contractAddress: string,
 ): Promise<void> => {
   await d1Query(
     `UPDATE catch_report_images
@@ -127,9 +210,10 @@ const markConfirmed = async (
          midnight_tx_hash = ?,
          midnight_block_number = ?,
          midnight_confirmed_at = ?,
+         midnight_contract_address = ?,
          midnight_error = NULL
      WHERE id = ?`,
-    [txHash, blockNumber, Date.now(), id],
+    [txHash, blockNumber, Date.now(), contractAddress, id],
   );
 };
 
@@ -204,10 +288,18 @@ const probeProofServer = async (url: string): Promise<void> => {
 };
 
 const main = async (): Promise<number> => {
-  const config = new MainnetConfig();
+  // Config selection: NETWORK=mainnet → MainnetConfig.
+  // Default (unset / anything else) → PreprodConfig (safe default for v3 development).
+  const network = (process.env.NETWORK ?? '').toLowerCase();
+  const config: Config = network === 'mainnet' ? new MainnetConfig() : new PreprodConfig();
+  const networkLabel = network === 'mainnet' ? 'mainnet' : 'preprod';
   const logger = await createLogger(config.logDir);
 
-  log(`mirror-pending starting (limit=${BATCH_LIMIT}${DRY_RUN ? ', DRY_RUN' : ''})`);
+  if (network === 'mainnet') {
+    const addr = readContractAddress();
+    log(`*** MAINNET MODE *** contract=${addr}`);
+  }
+  log(`mirror-pending starting (limit=${BATCH_LIMIT}, network=${networkLabel}${DRY_RUN ? ', DRY_RUN' : ''})`);
 
   try {
     await probeProofServer(config.proofServer);
@@ -231,6 +323,14 @@ const main = async (): Promise<number> => {
   }
 
   log(`fetched ${rows.length} pending row(s)`);
+
+  // Load region bounding boxes for GPS range proof
+  const regions = loadRegions();
+  if (regions.length === 0) {
+    logErr('regions.json is empty — no bounding boxes defined. Cannot mirror.');
+    return 1;
+  }
+  log(`loaded ${regions.length} region(s) from regions.json`);
 
   api.setLogger(logger);
   const walletCtx = await api.buildWalletAndWaitForFunds(config, readSeed());
@@ -269,12 +369,34 @@ const main = async (): Promise<number> => {
         );
       }
 
+      // v3: resolve bounding box from GPS + regions.json
+      let box: RegionBox;
+      try {
+        box = findBox(regions, row.gps_lat, row.gps_lng);
+      } catch (e) {
+        failed += 1;
+        logErr(`row id=${row.id} batch=${row.batch_id} → ${(e as Error).message}`);
+        continue;
+      }
+
+      // v3: persist nonce BEFORE submit (nonce loss = commitment unrecoverable)
+      let nonce: Uint8Array;
+      try {
+        nonce = await getOrCreateNonce(row.batch_id);
+      } catch (e) {
+        failed += 1;
+        logErr(`row id=${row.id} batch=${row.batch_id} → nonce persistence failed: ${(e as Error).message}`);
+        continue;
+      }
+      registerGpsNonce(row.batch_id, nonce);
+
       if (DRY_RUN) {
         wouldSubmit += 1;
         log(
           `[DRY_RUN] row id=${row.id} batch=${row.batch_id} → WOULD submit recordCatch ` +
-            `(region=${row.region ?? ''} date=${row.catch_date ?? ''} species=${row.fish_species ?? ''} ` +
-            `photoHash=${row.image_hash} gps=${row.gps_lat},${row.gps_lng}) — no tx sent, D1 unchanged`,
+            `(region=${row.region ?? ''} box=${box.name} date=${row.catch_date ?? ''} species=${row.fish_species ?? ''} ` +
+            `photoHash=${row.image_hash} gps=${row.gps_lat},${row.gps_lng}` +
+            ` manifest=${manifestPreview(row.fish_items ?? '')}) — no tx sent, D1 unchanged`,
         );
         continue;
       }
@@ -286,13 +408,18 @@ const main = async (): Promise<number> => {
           region: row.region ?? '',
           catchDate: row.catch_date ?? '',
           fishSpecies: row.fish_species ?? '',
+          fishManifest: buildFishManifest(row.fish_items ?? ''),
           photoHashHex: row.image_hash,
           gpsLat: row.gps_lat,
           gpsLng: row.gps_lng,
+          latMin: box.latMin,
+          latMax: box.latMax,
+          lonMin: box.lonMin,
+          lonMax: box.lonMax,
         });
         const blockNumber =
           typeof result.blockHeight === 'bigint' ? Number(result.blockHeight) : result.blockHeight;
-        await markConfirmed(row.id, result.txId, blockNumber);
+        await markConfirmed(row.id, result.txId, blockNumber, contractAddress);
         success += 1;
         log(
           `row id=${row.id} batch=${row.batch_id} → confirmed tx=${result.txId} block=${blockNumber}`,

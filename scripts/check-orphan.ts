@@ -69,7 +69,7 @@ const main = async (): Promise<number> => {
     console.log(`  on-chain photoHash:   ${onChainPhotoHashHex}`);
     console.log(`  d1 image_hash:        ${ORPHAN_IMAGE_HASH}`);
     console.log(`  photoHash matches:    ${photoHashMatches ? 'YES' : 'NO (MISMATCH — investigate!)'}`);
-    console.log(`  on-chain region:      ${bytes32ToAscii(rec.region)}`);
+    console.log(`  on-chain regionLabel: ${bytes32ToAscii(rec.regionLabel)}`);
     console.log(`  on-chain catchDate:   ${bytes32ToAscii(rec.catchDate)}`);
     console.log(`  on-chain fishSpecies: ${bytes32ToAscii(rec.fishSpecies)}`);
     console.log(`  on-chain committedAt: ${rec.committedAt.toString()}`);

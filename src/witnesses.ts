@@ -45,10 +45,20 @@ const loadRuntimeGps = (): Map<string, readonly [bigint, bigint]> => {
 
 const GPS_DB: Map<string, readonly [bigint, bigint]> = loadRuntimeGps();
 
+// v3: GPS nonce DB for persistentCommit hiding commitment.
+const NONCE_DB: Map<string, Uint8Array> = new Map();
+
 // Allows callers (e.g. scripts/mirror-pending.ts) to register GPS coords at
 // runtime without writing a JSON file, after witnesses.ts has been imported.
 export const registerGpsCoords = (humanBatchId: string, latE7: bigint, lngE7: bigint): void => {
   GPS_DB.set(batchKey(humanBatchId), [latE7, lngE7] as const);
+};
+
+// v3: Register a 32-byte random nonce for GPS hiding commitment.
+// Must be called before submitting recordCatch. No fallback — throws if missing.
+export const registerGpsNonce = (humanBatchId: string, nonce: Uint8Array): void => {
+  if (nonce.length !== 32) throw new Error(`GPS nonce must be 32 bytes, got ${nonce.length}`);
+  NONCE_DB.set(batchKey(humanBatchId), nonce);
 };
 
 // ── Admin secret key for owner-gated circuits ────────────────────────────
@@ -113,8 +123,29 @@ export const witnesses = {
     context: WitnessContext<unknown, GyotakCatchPrivateState>,
     batchId: Uint8Array,
   ): [GyotakCatchPrivateState, bigint[]] {
-    const coords = GPS_DB.get(toHex(batchId)) ?? ([0n, 0n] as const);
+    const key = toHex(batchId);
+    const coords = GPS_DB.get(key);
+    if (!coords) {
+      throw new Error(
+        `gyotak-catch v3: GPS coords not registered for batchId=${key}. ` +
+        `Call registerGpsCoords() before submitting recordCatch.`,
+      );
+    }
     return [context.privateState, [coords[0], coords[1]]];
+  },
+  getGpsNonce(
+    context: WitnessContext<unknown, GyotakCatchPrivateState>,
+    batchId: Uint8Array,
+  ): [GyotakCatchPrivateState, Uint8Array] {
+    const key = toHex(batchId);
+    const nonce = NONCE_DB.get(key);
+    if (!nonce) {
+      throw new Error(
+        `gyotak-catch v3: GPS nonce not registered for batchId=${key}. ` +
+        `Call registerGpsNonce() before submitting recordCatch.`,
+      );
+    }
+    return [context.privateState, nonce];
   },
   localSecretKey(
     context: WitnessContext<unknown, GyotakCatchPrivateState>,
