@@ -157,8 +157,14 @@ const findBox = (regions: RegionBox[], lat: number, lng: number): RegionBox => {
 // back to r.location (Thai) when location_en is null. Image-level GPS takes
 // precedence over the parent report's GPS. Legacy rows with null batch_id
 // cannot be submitted to the contract and are excluded.
-const fetchPending = async (): Promise<PendingRow[]> =>
-  d1Query<PendingRow>(
+// ONLY_BATCH: when set, restrict to a single batch_id (preprod testing).
+// Prevents the mirror from accidentally picking up production pending rows.
+const ONLY_BATCH = process.env.ONLY_BATCH?.trim() || '';
+
+const fetchPending = async (): Promise<PendingRow[]> => {
+  const batchFilter = ONLY_BATCH ? 'AND i.batch_id = ?' : '';
+  const params: unknown[] = ONLY_BATCH ? [ONLY_BATCH, BATCH_LIMIT] : [BATCH_LIMIT];
+  return d1Query<PendingRow>(
     `SELECT
        i.id AS id,
        i.batch_id AS batch_id,
@@ -175,10 +181,12 @@ const fetchPending = async (): Promise<PendingRow[]> =>
      LEFT JOIN catch_reports r ON r.id = i.catch_report_id
      WHERE i.midnight_status = 'pending'
        AND i.batch_id IS NOT NULL
+       ${batchFilter}
      ORDER BY i.created_at ASC
      LIMIT ?`,
-    [BATCH_LIMIT],
+    params,
   );
+};
 
 const markSubmitting = async (id: PendingRow['id']): Promise<void> => {
   await d1Query(
@@ -299,7 +307,7 @@ const main = async (): Promise<number> => {
     const addr = readContractAddress();
     log(`*** MAINNET MODE *** contract=${addr}`);
   }
-  log(`mirror-pending starting (limit=${BATCH_LIMIT}, network=${networkLabel}${DRY_RUN ? ', DRY_RUN' : ''})`);
+  log(`mirror-pending starting (limit=${BATCH_LIMIT}, network=${networkLabel}${ONLY_BATCH ? `, ONLY_BATCH=${ONLY_BATCH}` : ''}${DRY_RUN ? ', DRY_RUN' : ''})`);
 
   try {
     await probeProofServer(config.proofServer);
