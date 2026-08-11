@@ -44,6 +44,11 @@ export class PreviewConfig implements Config {
 
 export class MainnetConfig implements Config {
   logDir = path.resolve(currentDir, '..', 'logs', 'mainnet', `${new Date().toISOString()}.log`);
+  // Persist wallet sync state so subsequent runs warm-restore instead of cold
+  // syncing (~60 min). Resolves relative to THIS clone's src/ →
+  // ~/midnight/gyotak-catch-v2-deploy/midnight-level-db/mainnet — a dedicated
+  // path for the v2 deploy clone, distinct from v1's ~/midnight/gyotak-catch/.
+  walletStateDir = path.resolve(currentDir, '..', 'midnight-level-db', 'mainnet');
   indexer = process.env.INDEXER_URI ?? 'https://indexer.mainnet.midnight.network/api/v4/graphql';
   indexerWS = process.env.INDEXER_WS_URI ?? 'wss://indexer.mainnet.midnight.network/api/v4/graphql/ws';
   node = process.env.NODE_URI ?? 'https://rpc.mainnet.midnight.network';

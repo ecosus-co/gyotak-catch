@@ -3,11 +3,14 @@ pragma language_version >= 0.22;
 import CompactStandardLibrary;
 
 struct CatchRecord {
-  gpsHash: Bytes<32>,
+  gpsCommitment: Bytes<32>,
   photoHash: Bytes<32>,
-  region: Bytes<32>,
+  // regionLabel is a display-only label. It is NOT proven by the circuit.
+  // What is proven is that the GPS lies within [latMin,latMax]x[lonMin,lonMax].
+  regionLabel: Bytes<32>,
   catchDate: Bytes<32>,
   fishSpecies: Bytes<32>,
+  fishManifest: Vector<10, Bytes<32>>,
   committedAt: Uint<64>,
 }
 
@@ -15,6 +18,7 @@ export ledger batches: Map<Bytes<32>, CatchRecord>;
 export ledger owner: Bytes<32>;
 
 witness getGpsCoords(batchId: Bytes<32>): Vector<2, Uint<32>>;
+witness getGpsNonce(batchId: Bytes<32>): Bytes<32>;
 witness localSecretKey(): Bytes<32>;
 
 export pure circuit publicKey(sk: Bytes<32>): Bytes<32> {
@@ -25,20 +29,27 @@ constructor(initialOwner: Bytes<32>) {
   owner = disclose(initialOwner);
 }
 
+// v3: GPS range proof + hiding commitment.
+// The circuit proves that GPS coordinates fall within [latMin,latMax] x [lonMin,lonMax]
+// without revealing the exact coordinates. Only the commitment (with nonce) is stored.
+// regionLabel is a human-readable string (e.g. "Prachuap Khiri Khan") for display;
+// the circuit does NOT verify that regionLabel matches the GPS bounding box.
 export circuit recordCatch(
   batchId: Bytes<32>,
-  region: Bytes<32>,
+  regionLabel: Bytes<32>,
   catchDate: Bytes<32>,
   fishSpecies: Bytes<32>,
+  fishManifest: Vector<10, Bytes<32>>,
   photoHash: Bytes<32>,
-  timestamp: Uint<64>
+  timestamp: Uint<64>,
+  latMin: Uint<32>,
+  latMax: Uint<32>,
+  lonMin: Uint<32>,
+  lonMax: Uint<32>
 ): [] {
   const sk = localSecretKey();
   assert(disclose(publicKey(sk) == owner), "unauthorized");
 
-  // Caller-supplied timestamp must lie within ±600s of the producing block's
-  // clock. blockTime predicates re-evaluate at settlement, so a tx that ages
-  // out of the window in mempool is rejected.
   const t = disclose(timestamp);
   const lower = (t - 600) as Uint<64>;
   const upper = (t + 600) as Uint<64>;
@@ -46,14 +57,31 @@ export circuit recordCatch(
   assert(blockTimeLte(upper), "timestamp too far in future");
 
   assert(!batches.member(disclose(batchId)), "catch already exists");
+
+  // GPS witness: get coordinates and nonce
   const gps = getGpsCoords(batchId);
-  const gpsHash = persistentHash<Vector<2, Uint<32>>>(gps);
+  const nonce = getGpsNonce(batchId);
+
+  // GPS range proof: assert coordinates within the declared bounding box.
+  // gps[0] = latitude (Uint<32>, offset-encoded: degrees * 1e7 + 2^31)
+  // gps[1] = longitude (Uint<32>, offset-encoded: degrees * 1e7 + 2^31)
+  // latMin/latMax/lonMin/lonMax are public circuit arguments in the same encoding.
+  assert(disclose(gps[0] >= latMin), "GPS latitude below minimum");
+  assert(disclose(gps[0] <= latMax), "GPS latitude above maximum");
+  assert(disclose(gps[1] >= lonMin), "GPS longitude below minimum");
+  assert(disclose(gps[1] <= lonMax), "GPS longitude above maximum");
+
+  // Hiding commitment: persistentCommit hides the GPS coords behind a random nonce.
+  // Unlike persistentHash, the commitment cannot be brute-forced without the nonce.
+  const gpsCommitment = persistentCommit<Vector<2, Uint<32>>>(gps, nonce);
+
   const record = CatchRecord {
-    gpsHash,
+    gpsCommitment,
     photoHash,
-    region,
+    regionLabel,
     catchDate,
     fishSpecies,
+    fishManifest,
     committedAt: timestamp,
   };
   batches.insert(disclose(batchId), disclose(record));

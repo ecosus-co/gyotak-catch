@@ -72,11 +72,14 @@ export interface WalletContext {
 export const gyotakCatchContractInstance: GyotakCatchContract = new Contract<GyotakCatchPrivateState, typeof witnesses>(witnesses);
 
 export type CatchRecordView = {
-  gpsHash: Uint8Array;
+  gpsCommitment: Uint8Array;
   photoHash: Uint8Array;
-  region: Uint8Array;
+  regionLabel: Uint8Array;
   catchDate: Uint8Array;
   fishSpecies: Uint8Array;
+  // v2: up to 10 plaintext "romaji:weight" slots (Bytes<32> each, zero-padded).
+  // Unused slots decode to empty via bytes32ToAscii.
+  fishManifest: Uint8Array[];
   committedAt: bigint;
 };
 
@@ -149,17 +152,30 @@ export const recordCatch = async (
   region: Uint8Array,
   catchDate: Uint8Array,
   fishSpecies: Uint8Array,
+  fishManifest: Uint8Array[],
   photoHash: Uint8Array,
   timestamp: bigint,
+  // v3: GPS bounding box for range proof (shifted Uint<32>)
+  latMin: bigint,
+  latMax: bigint,
+  lonMin: bigint,
+  lonMax: bigint,
 ): Promise<FinalizedTxData> => {
-  logger.info({ batchId: toHex(batchId) }, 'recordCatch...');
-  const finalizedTxData = await (contract as any).callTx.recordCatch(
+  logger.info({ batchId: toHex(batchId), manifestSlots: fishManifest.length }, 'recordCatch...');
+  // No `as any`: the compiled contract's callTx.recordCatch is fully typed,
+  // so the argument order/shape is checked at compile time.
+  const finalizedTxData = await contract.callTx.recordCatch(
     batchId,
     region,
     catchDate,
     fishSpecies,
+    fishManifest,
     photoHash,
     timestamp,
+    latMin,
+    latMax,
+    lonMin,
+    lonMax,
   );
   logger.info(
     `Transaction ${finalizedTxData.public.txId} added in block ${finalizedTxData.public.blockHeight}`,
@@ -431,13 +447,13 @@ ${DIV}`);
 // Files: shielded.json / unshielded.json / dust.json. All-or-nothing semantics:
 // restore happens only if all three files exist (otherwise we fall back to fresh
 // start to avoid mismatched state across the three sub-wallets).
-const STATE_FILES = {
+export const STATE_FILES = {
   shielded: 'shielded.json',
   unshielded: 'unshielded.json',
   dust: 'dust.json',
 } as const;
 
-const tryReadWalletState = (
+export const tryReadWalletState = (
   dir: string | undefined,
   filename: string,
 ): string | null => {
@@ -577,7 +593,17 @@ ${DIV}
   // where the prior outer waitForFunds blocked on dust.balance>0 *before*
   // NIGHT registration ran — fatal on a fresh wallet whose only resource is
   // unregistered NIGHT (Preprod attempt2, 2026-05-07).
-  await registerForDustGeneration(wallet, unshieldedKeystore);
+  //
+  // SKIP_DUST_REGISTRATION (opt-in) skips BOTH the NIGHT registration and the
+  // wait-for-DUST step, yielding a synced-but-unfunded wallet. Used only for
+  // read/simulate-only flows (e.g. the owner-gate negative test, where the
+  // assertion fails at SDK simulation before any submit, so no dust is needed).
+  // Default (unset) preserves the historical fund-and-register behavior.
+  if (/^(1|true|yes)$/i.test(process.env.SKIP_DUST_REGISTRATION ?? '')) {
+    console.log('[wallet] SKIP_DUST_REGISTRATION set — skipping dust registration/wait (read/simulate only)');
+  } else {
+    await registerForDustGeneration(wallet, unshieldedKeystore);
+  }
 
   return { wallet, shieldedSecretKeys, dustSecretKey, unshieldedKeystore };
 };

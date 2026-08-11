@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Pran Buri District, Prachuap Khiri Khan",
+    "short_name": "Pran Buri, Prachuap Khiri Khan",
+    "latMin": 12.3208389,
+    "latMax": 12.4907532,
+    "lonMin": 99.4009940,
+    "lonMax": 100.0028145
+  },
+  {
+    "name": "Hua Hin District, Prachuap Khiri Khan",
+    "short_name": "Hua Hin, Prachuap Khiri Khan",
+    "latMin": 12.3449750,
+    "latMax": 12.6446011,
+    "lonMin": 99.4009940,
+    "lonMax": 99.9851984
+  },
+  {
+    "name": "Cha-am District, Phetchaburi",
+    "short_name": "Cha-am, Phetchaburi",
+    "latMin": 12.6142038,
+    "latMax": 12.9261969,
+    "lonMin": 99.7505759,
+    "lonMax": 100.0270352
+  }
+]

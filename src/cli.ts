@@ -1,18 +1,24 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { toHex } from '@midnight-ntwrk/midnight-js/utils';
 import { getNetworkId } from '@midnight-ntwrk/midnight-js/network-id';
 import { type Logger } from 'pino';
 import * as api from './api.js';
 import { type Config } from './config.js';
-import { registerGpsCoords, loadAdminSecretKey } from './witnesses.js';
+import { registerGpsCoords, registerGpsNonce, loadAdminSecretKey } from './witnesses.js';
 import { pureCircuits } from '../contracts/managed/contract/index.js';
 import { type DeployedGyotakCatchContract } from './common-types.js';
 
-const contractAddressFile = (): string =>
-  resolve(process.cwd(), `.contract-address.${getNetworkId()}`);
+// Optional version suffix (e.g. CATCH_ADDR_SUFFIX=v2 → .contract-address.preprod.v2)
+// keeps the v2 contract address in a distinct file so it never clobbers the v1
+// .contract-address.<network> that the live deployment / invoice link rely on.
+// Default (unset) preserves the historical filename exactly.
+const contractAddressFile = (): string => {
+  const suffix = process.env.CATCH_ADDR_SUFFIX ? `.${process.env.CATCH_ADDR_SUFFIX}` : '';
+  return resolve(process.cwd(), `.contract-address.${getNetworkId()}${suffix}`);
+};
 const ENV_FILE = resolve(process.cwd(), '.env');
 
 export const loadDotenv = (): void => {
@@ -52,7 +58,11 @@ export const readContractAddress = (): string => {
 export const textToBytes32 = (s: string): Uint8Array => {
   const enc = new TextEncoder().encode(s);
   const buf = new Uint8Array(32);
-  buf.set(enc.slice(0, 32));
+  let len = Math.min(enc.length, 32);
+  // Walk back if we'd cut in the middle of a UTF-8 multibyte sequence.
+  // A UTF-8 continuation byte has the pattern 10xxxxxx (0x80..0xBF).
+  while (len > 0 && (enc[len] & 0xc0) === 0x80) len--;
+  buf.set(enc.subarray(0, len));
   return buf;
 };
 
@@ -88,14 +98,155 @@ export const degreesToUint32 = (s: string | number): bigint => {
   return BigInt(shifted);
 };
 
+// ── v2: plaintext fish manifest (Vector<10, Bytes<32>>) ────────────────────
+export const FISH_MANIFEST_SLOTS = 10;
+
+const zero32 = (): Uint8Array => new Uint8Array(32);
+
+// One species as stored in catch_reports.fish_items (D1). Only romaji and
+// weight_kg are consumed here; other locale fields are ignored.
+export interface FishItem {
+  romaji?: string;
+  weight_kg?: number | string | null;
+  [k: string]: unknown;
+}
+
+/**
+ * Build the on-chain fishManifest — exactly FISH_MANIFEST_SLOTS (10) slots of
+ * Bytes<32> — from a catch_reports.fish_items value.
+ *
+ * Each species becomes a plaintext "romaji:weight_kg" string with the weight
+ * kept VERBATIM (no rounding: 20.8 → "20.8", 17 → "17"). A species with no
+ * weight becomes "romaji" alone. Slots are encoded via textToBytes32.
+ *
+ * No silent truncation:
+ *  - An entry whose UTF-8 "romaji:weight" exceeds 32 bytes is SKIPPED with a
+ *    console.warn (never cut to fit).
+ *  - At most 10 slots are emitted; any surplus species is SKIPPED with a warn.
+ *  - An entry without a romaji name is SKIPPED with a warn.
+ *  - Unused slots are zero-padded (all-zero Bytes<32>).
+ *
+ * Accepts the raw JSON string (as stored in D1), an already-parsed array, or
+ * null/empty (→ all-zero manifest).
+ */
+export const buildFishManifest = (
+  fishItems: string | FishItem[] | null | undefined,
+): Uint8Array[] => {
+  let parsed: FishItem[] = [];
+  if (Array.isArray(fishItems)) {
+    parsed = fishItems;
+  } else if (typeof fishItems === 'string' && fishItems.trim() !== '') {
+    try {
+      const j: unknown = JSON.parse(fishItems);
+      if (Array.isArray(j)) parsed = j as FishItem[];
+      else console.warn('buildFishManifest: fish_items JSON is not an array; treating as empty');
+    } catch (e) {
+      console.warn(
+        `buildFishManifest: fish_items is not valid JSON; treating as empty (${(e as Error).message})`,
+      );
+    }
+  }
+
+  const slots: Uint8Array[] = [];
+  for (const item of parsed) {
+    if (slots.length >= FISH_MANIFEST_SLOTS) {
+      console.warn(
+        `buildFishManifest: more than ${FISH_MANIFEST_SLOTS} species; skipping surplus "${
+          item?.romaji ?? JSON.stringify(item)
+        }"`,
+      );
+      continue;
+    }
+    const romaji = typeof item?.romaji === 'string' ? item.romaji.trim() : '';
+    if (romaji === '') {
+      console.warn(`buildFishManifest: entry without romaji; skipping ${JSON.stringify(item)}`);
+      continue;
+    }
+    const w = item?.weight_kg;
+    const hasWeight = w !== undefined && w !== null && String(w).trim() !== '';
+    const slotStr = hasWeight ? `${romaji}:${String(w)}` : romaji;
+    const byteLen = new TextEncoder().encode(slotStr).length;
+    if (byteLen > 32) {
+      console.warn(
+        `buildFishManifest: "${slotStr}" is ${byteLen} bytes (>32); skipping slot (no silent truncation)`,
+      );
+      continue;
+    }
+    slots.push(textToBytes32(slotStr));
+  }
+
+  while (slots.length < FISH_MANIFEST_SLOTS) slots.push(zero32());
+  return slots;
+};
+
+/**
+ * Build a compact fishSpecies summary from fish_items romaji names.
+ * Fits as many complete names as possible into 32 bytes, comma-separated.
+ * If not all names fit, appends "+N" to indicate the remaining count.
+ * Examples:
+ *   ["Umadsura-Aji","Itohiki-Aji"]       → "Umadsura-Aji,Itohiki-Aji"
+ *   ["Kurohoshi-Fuedai","Tate-Fuedai"]   → "Kurohoshi-Fuedai+1" (if both don't fit)
+ *   []                                    → ""
+ */
+export const buildFishSpeciesSummary = (
+  fishItems: string | FishItem[] | null | undefined,
+): string => {
+  let parsed: FishItem[] = [];
+  if (Array.isArray(fishItems)) {
+    parsed = fishItems;
+  } else if (typeof fishItems === 'string' && fishItems.trim() !== '') {
+    try {
+      const j: unknown = JSON.parse(fishItems);
+      if (Array.isArray(j)) parsed = j as FishItem[];
+    } catch { /* treat as empty */ }
+  }
+
+  const names = parsed
+    .map((item) => (typeof item?.romaji === 'string' ? item.romaji.trim() : ''))
+    .filter((n) => n.length > 0);
+
+  if (names.length === 0) return '';
+
+  const encoder = new TextEncoder();
+  let result = '';
+  let included = 0;
+
+  for (const name of names) {
+    const candidate = included === 0 ? name : `${result},${name}`;
+    const remaining = names.length - included - 1;
+    // Reserve space for "+N" suffix if there will be remaining names after this one
+    const suffix = remaining > 0 ? `+${remaining}` : '';
+    if (encoder.encode(candidate + suffix).length > 32) break;
+    result = candidate;
+    included++;
+  }
+
+  // If no name fit at all, fall back to the first name (textToBytes32 will
+  // safely truncate it at a UTF-8 boundary).
+  if (included === 0) return names[0];
+
+  const remaining = names.length - included;
+  if (remaining > 0) result += `+${remaining}`;
+  return result;
+};
+
 export interface SubmitCatchRecordParams {
   batchId: string;
   region: string;
   catchDate: string;
   fishSpecies: string;
+  // v2: pre-built 10-slot manifest (use buildFishManifest). Optional so existing
+  // callers that have not yet wired the manifest default to an all-zero manifest.
+  fishManifest?: Uint8Array[];
   photoHashHex: string;
   gpsLat: string | number;
   gpsLng: string | number;
+  // v3: GPS bounding box for range proof (degrees, converted via degreesToUint32).
+  // Required — omitting the box is a compile error, not a silent fallback.
+  latMin: number;
+  latMax: number;
+  lonMin: number;
+  lonMax: number;
 }
 
 export interface SubmitCatchRecordResult {
@@ -116,14 +267,30 @@ export const submitCatchRecord = async (
     throw new Error(`photoHashHex must decode to 32 bytes, got ${photoHash.length}`);
   }
 
+  // Default to an all-zero manifest when a caller has not supplied one. When
+  // supplied it must be exactly FISH_MANIFEST_SLOTS entries (the contract's
+  // Vector<10> is fixed-length).
+  const fishManifest = params.fishManifest ?? buildFishManifest(null);
+  if (fishManifest.length !== FISH_MANIFEST_SLOTS) {
+    throw new Error(
+      `fishManifest must have exactly ${FISH_MANIFEST_SLOTS} slots, got ${fishManifest.length}`,
+    );
+  }
+
   const txData = await api.recordCatch(
     contract,
     textToBytes32(params.batchId),
     textToBytes32(params.region),
     textToBytes32(params.catchDate),
     textToBytes32(params.fishSpecies),
+    fishManifest,
     photoHash,
     BigInt(Math.floor(Date.now() / 1000)),
+    // v3: GPS bounding box for range proof
+    degreesToUint32(params.latMin),
+    degreesToUint32(params.latMax),
+    degreesToUint32(params.lonMin),
+    degreesToUint32(params.lonMax),
   );
 
   return {
@@ -241,12 +408,26 @@ const cmdDeriveOwnerPk = (): void => {
 };
 
 const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): Promise<void> => {
-  const [batchId, region, catchDate, fishSpecies, photoUrl, gpsLat, gpsLng] = args;
-  if (!batchId || !region || !catchDate || !fishSpecies || !photoUrl || !gpsLat || !gpsLng) {
+  const nonceFlag = parseFlag(args, '--nonce');
+  // Remove --nonce <value> from args before positional parsing
+  const positional = args.filter((_, i) => {
+    if (args[i] === '--nonce') return false;
+    if (i > 0 && args[i - 1] === '--nonce') return false;
+    return true;
+  });
+  const [batchId, region, catchDate, fishSpecies, photoUrl, gpsLat, gpsLng, latMinStr, latMaxStr, lonMinStr, lonMaxStr, fishItemsJson] = positional;
+  if (!batchId || !region || !catchDate || !fishSpecies || !photoUrl || !gpsLat || !gpsLng || !latMinStr || !latMaxStr || !lonMinStr || !lonMaxStr) {
     throw new Error(
-      'Usage: record-catch <batchId> <region> <catchDate> <fishSpecies> <photoUrl> <gpsLat> <gpsLng>',
+      'Usage: record-catch <batchId> <region> <catchDate> <fishSpecies> <photoUrl> <gpsLat> <gpsLng> <latMin> <latMax> <lonMin> <lonMax> [fishItemsJson] [--nonce <64hex>]\n' +
+      '  latMin/latMax/lonMin/lonMax: GPS bounding box in degrees (v3 range proof).\n' +
+      '  --nonce: optional 32-byte hex nonce for GPS hiding commitment.\n' +
+      '           If omitted, a random nonce is generated and printed.\n' +
+      '           The nonce is NOT persisted to D1 (use mirror-pending for production).\n' +
+      '  fishItemsJson (optional): catch_reports.fish_items JSON; builds the v2 fishManifest.\n' +
+      '  Omit it to record an all-zero manifest.',
     );
   }
+  const fishManifest = buildFishManifest(fishItemsJson ?? null);
 
   // Fetch photo and compute SHA-256 of its bytes.
   logger.info({ photoUrl }, 'Fetching photo for hashing...');
@@ -261,15 +442,22 @@ const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): P
     'photo sha256 computed',
   );
 
-  // Provide GPS coords via a temp JSON so the witness can resolve them at runtime.
-  const gpsJsonPath = resolve(process.cwd(), `.gps-${Date.now()}.json`);
-  writeFileSync(
-    gpsJsonPath,
-    JSON.stringify({
-      [batchId]: [degreesToUint32(gpsLat).toString(), degreesToUint32(gpsLng).toString()],
-    }),
-  );
-  process.env.GPS_JSON = gpsJsonPath;
+  // v3: register GPS coords directly (replaces broken GPS_JSON file mechanism).
+  registerGpsCoords(batchId, degreesToUint32(gpsLat), degreesToUint32(gpsLng));
+
+  // v3: nonce for GPS hiding commitment (in-memory only, NOT persisted to D1).
+  let nonce: Uint8Array;
+  if (nonceFlag) {
+    const clean = nonceFlag.replace(/^0x/i, '');
+    if (!/^[0-9a-fA-F]{64}$/.test(clean)) {
+      throw new Error(`--nonce must be 64 hex characters, got ${clean.length}`);
+    }
+    nonce = Uint8Array.from(clean.match(/.{2}/g)!.map((b) => parseInt(b, 16)));
+  } else {
+    nonce = randomBytes(32);
+    console.log(`  generated nonce: ${Buffer.from(nonce).toString('hex')}`);
+  }
+  registerGpsNonce(batchId, nonce);
 
   api.setLogger(logger);
   const walletCtx = await api.buildWalletAndWaitForFunds(config, readSeed());
@@ -286,8 +474,13 @@ const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): P
         textToBytes32(region),
         textToBytes32(catchDate),
         textToBytes32(fishSpecies),
+        fishManifest,
         photoHash,
         BigInt(Math.floor(Date.now() / 1000)),
+        degreesToUint32(latMinStr),
+        degreesToUint32(latMaxStr),
+        degreesToUint32(lonMinStr),
+        degreesToUint32(lonMaxStr),
       ),
     );
 
@@ -297,9 +490,9 @@ const cmdRecordCatch = async (config: Config, logger: Logger, args: string[]): P
     console.log(`    blockHeight: ${txData.blockHeight}`);
     console.log(`    blockHash:   ${txData.blockHash ?? '(n/a)'}`);
     console.log(`    photoHash:   ${hexFromBytes(photoHash)}`);
+    console.log(`    nonce:       ${Buffer.from(nonce).toString('hex')}`);
     console.log('');
   } finally {
-    // Save latest sync state before stop (no-op when walletStateDir not configured).
     await api.saveWalletStates(walletCtx.wallet, config.walletStateDir);
     await walletCtx.wallet.stop();
   }
@@ -329,10 +522,10 @@ const cmdVerifyCatch = async (config: Config, logger: Logger, args: string[]): P
     console.log('');
     console.log('  ─ CatchRecord (read from ledger)');
     console.log(`    batchId:     ${batchId}`);
-    console.log(`    region:      ${bytes32ToAscii(onChain.region)}`);
+    console.log(`    regionLabel: ${bytes32ToAscii(onChain.regionLabel)}`);
     console.log(`    catchDate:   ${bytes32ToAscii(onChain.catchDate)}`);
     console.log(`    fishSpecies: ${bytes32ToAscii(onChain.fishSpecies)}`);
-    console.log(`    gpsHash:     ${hexFromBytes(onChain.gpsHash)}`);
+    console.log(`    gpsCommitment: ${hexFromBytes(onChain.gpsCommitment)}`);
     console.log(`    photoHash:   ${hexFromBytes(onChain.photoHash)}`);
     console.log(`    committedAt: ${onChain.committedAt} (${new Date(Number(onChain.committedAt) * 1000).toISOString()})`);
     console.log('');
