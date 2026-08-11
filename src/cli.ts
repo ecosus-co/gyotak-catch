@@ -58,7 +58,11 @@ export const readContractAddress = (): string => {
 export const textToBytes32 = (s: string): Uint8Array => {
   const enc = new TextEncoder().encode(s);
   const buf = new Uint8Array(32);
-  buf.set(enc.slice(0, 32));
+  let len = Math.min(enc.length, 32);
+  // Walk back if we'd cut in the middle of a UTF-8 multibyte sequence.
+  // A UTF-8 continuation byte has the pattern 10xxxxxx (0x80..0xBF).
+  while (len > 0 && (enc[len] & 0xc0) === 0x80) len--;
+  buf.set(enc.subarray(0, len));
   return buf;
 };
 
@@ -173,6 +177,57 @@ export const buildFishManifest = (
 
   while (slots.length < FISH_MANIFEST_SLOTS) slots.push(zero32());
   return slots;
+};
+
+/**
+ * Build a compact fishSpecies summary from fish_items romaji names.
+ * Fits as many complete names as possible into 32 bytes, comma-separated.
+ * If not all names fit, appends "+N" to indicate the remaining count.
+ * Examples:
+ *   ["Umadsura-Aji","Itohiki-Aji"]       → "Umadsura-Aji,Itohiki-Aji"
+ *   ["Kurohoshi-Fuedai","Tate-Fuedai"]   → "Kurohoshi-Fuedai+1" (if both don't fit)
+ *   []                                    → ""
+ */
+export const buildFishSpeciesSummary = (
+  fishItems: string | FishItem[] | null | undefined,
+): string => {
+  let parsed: FishItem[] = [];
+  if (Array.isArray(fishItems)) {
+    parsed = fishItems;
+  } else if (typeof fishItems === 'string' && fishItems.trim() !== '') {
+    try {
+      const j: unknown = JSON.parse(fishItems);
+      if (Array.isArray(j)) parsed = j as FishItem[];
+    } catch { /* treat as empty */ }
+  }
+
+  const names = parsed
+    .map((item) => (typeof item?.romaji === 'string' ? item.romaji.trim() : ''))
+    .filter((n) => n.length > 0);
+
+  if (names.length === 0) return '';
+
+  const encoder = new TextEncoder();
+  let result = '';
+  let included = 0;
+
+  for (const name of names) {
+    const candidate = included === 0 ? name : `${result},${name}`;
+    const remaining = names.length - included - 1;
+    // Reserve space for "+N" suffix if there will be remaining names after this one
+    const suffix = remaining > 0 ? `+${remaining}` : '';
+    if (encoder.encode(candidate + suffix).length > 32) break;
+    result = candidate;
+    included++;
+  }
+
+  // If no name fit at all, fall back to the first name (textToBytes32 will
+  // safely truncate it at a UTF-8 boundary).
+  if (included === 0) return names[0];
+
+  const remaining = names.length - included;
+  if (remaining > 0) result += `+${remaining}`;
+  return result;
 };
 
 export interface SubmitCatchRecordParams {

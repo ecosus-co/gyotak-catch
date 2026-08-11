@@ -9,6 +9,7 @@ import {
   readContractAddress,
   submitCatchRecord,
   buildFishManifest,
+  buildFishSpeciesSummary,
   bytes32ToAscii,
   textToBytes32,
   hexFromBytes,
@@ -121,9 +122,10 @@ const getOrCreateNonce = async (batchId: string): Promise<Uint8Array> => {
 };
 
 // ── GPS bounding box lookup ────────────────────────────────────────────────
-// regions.json: [{ name, latMin, latMax, lonMin, lonMax }] (degrees, WGS84)
+// regions.json: [{ name, short_name, latMin, latMax, lonMin, lonMax }] (degrees, WGS84)
 interface RegionBox {
   name: string;
+  short_name: string;
   latMin: number;
   latMax: number;
   lonMin: number;
@@ -152,9 +154,10 @@ const findBox = (regions: RegionBox[], lat: number, lng: number): RegionBox => {
   return match;
 };
 
-// catch_reports has no fish_species column; the Japanese species name lives in
-// r.title, so we use that (textToBytes32 truncates to 32 bytes). region falls
-// back to r.location (Thai) when location_en is null. Image-level GPS takes
+// fishSpecies: built from fish_items romaji names via buildFishSpeciesSummary
+// (no longer uses r.title, which is Japanese and overflows Bytes<32>).
+// regionLabel: uses box.short_name from regions.json (not D1's location_en,
+// which is too long for Bytes<32>). Image-level GPS takes
 // precedence over the parent report's GPS. Legacy rows with null batch_id
 // cannot be submitted to the contract and are excluded.
 // ONLY_BATCH: when set, restrict to a single batch_id (preprod testing).
@@ -413,9 +416,9 @@ const main = async (): Promise<number> => {
       try {
         const result = await submitCatchRecord(contract, {
           batchId: row.batch_id,
-          region: row.region ?? '',
+          region: box.short_name,
           catchDate: row.catch_date ?? '',
-          fishSpecies: row.fish_species ?? '',
+          fishSpecies: buildFishSpeciesSummary(row.fish_items ?? ''),
           fishManifest: buildFishManifest(row.fish_items ?? ''),
           photoHashHex: row.image_hash,
           gpsLat: row.gps_lat,
