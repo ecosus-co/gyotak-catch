@@ -1,0 +1,618 @@
+[
+  {
+    "label": "Amnat Charoen",
+    "short_name": "Amnat Charoen",
+    "latMin": 15.5371061,
+    "latMax": 16.2843705,
+    "lonMin": 104.4188951,
+    "lonMax": 105.0602608
+  },
+  {
+    "label": "Ang Thong",
+    "short_name": "Ang Thong",
+    "latMin": 14.4372544,
+    "latMax": 14.8024372,
+    "lonMin": 100.1916355,
+    "lonMax": 100.5082834
+  },
+  {
+    "label": "Bangkok",
+    "short_name": "Bangkok",
+    "latMin": 13.2191019,
+    "latMax": 13.9551693,
+    "lonMin": 100.3278772,
+    "lonMax": 100.9386039
+  },
+  {
+    "label": "Bueng Kan",
+    "short_name": "Bueng Kan",
+    "latMin": 17.7708594,
+    "latMax": 18.448611,
+    "lonMin": 103.24334,
+    "lonMax": 104.1899816
+  },
+  {
+    "label": "Buri Ram",
+    "short_name": "Buri Ram",
+    "latMin": 14.1300445,
+    "latMax": 15.7958261,
+    "lonMin": 102.4326382,
+    "lonMax": 103.5054385
+  },
+  {
+    "label": "Chachoengsao",
+    "short_name": "Chachoengsao",
+    "latMin": 13.1784701,
+    "latMax": 13.9766666,
+    "lonMin": 100.7462755,
+    "lonMax": 101.9900661
+  },
+  {
+    "label": "Chai Nat",
+    "short_name": "Chai Nat",
+    "latMin": 14.9051436,
+    "latMax": 15.4178201,
+    "lonMin": 99.719716,
+    "lonMax": 100.3547993
+  },
+  {
+    "label": "Chaiyaphum",
+    "short_name": "Chaiyaphum",
+    "latMin": 15.3314025,
+    "latMax": 16.7288341,
+    "lonMin": 101.3175753,
+    "lonMax": 102.4588677
+  },
+  {
+    "label": "Chanthaburi",
+    "short_name": "Chanthaburi",
+    "latMin": 12.1474325,
+    "latMax": 13.336181,
+    "lonMin": 101.5985806,
+    "lonMax": 102.5358859
+  },
+  {
+    "label": "Chiang Mai",
+    "short_name": "Chiang Mai",
+    "latMin": 17.2422747,
+    "latMax": 20.14758,
+    "lonMin": 98.0080391,
+    "lonMax": 99.5729134
+  },
+  {
+    "label": "Chiang Rai",
+    "short_name": "Chiang Rai",
+    "latMin": 18.9999028,
+    "latMax": 20.4648135,
+    "lonMin": 99.2579856,
+    "lonMax": 100.578496
+  },
+  {
+    "label": "Chon Buri",
+    "short_name": "Chon Buri",
+    "latMin": 12.2812858,
+    "latMax": 13.5894002,
+    "lonMin": 100.4534436,
+    "lonMax": 101.7197202
+  },
+  {
+    "label": "Chumphon",
+    "short_name": "Chumphon",
+    "latMin": 9.6008767,
+    "latMax": 11.033942,
+    "lonMin": 98.6276183,
+    "lonMax": 100.062095
+  },
+  {
+    "label": "Kalasin",
+    "short_name": "Kalasin",
+    "latMin": 16.1816732,
+    "latMax": 17.1019579,
+    "lonMin": 103.0967607,
+    "lonMax": 104.2406402
+  },
+  {
+    "label": "Kamphaeng Phet",
+    "short_name": "Kamphaeng Phet",
+    "latMin": 15.8553068,
+    "latMax": 16.9105826,
+    "lonMin": 99.0163081,
+    "lonMax": 100.0470903
+  },
+  {
+    "label": "Kanchanaburi",
+    "short_name": "Kanchanaburi",
+    "latMin": 13.726142,
+    "latMax": 15.6607404,
+    "lonMin": 98.181697,
+    "lonMax": 99.8793176
+  },
+  {
+    "label": "Khon Kaen",
+    "short_name": "Khon Kaen",
+    "latMin": 15.6326251,
+    "latMax": 17.0882043,
+    "lonMin": 101.7496254,
+    "lonMax": 103.1844694
+  },
+  {
+    "label": "Krabi",
+    "short_name": "Krabi",
+    "latMin": 7.0760849,
+    "latMax": 8.6818403,
+    "lonMin": 98.5996448,
+    "lonMax": 99.414993
+  },
+  {
+    "label": "Lampang",
+    "short_name": "Lampang",
+    "latMin": 17.2054734,
+    "latMax": 19.4176577,
+    "lonMin": 98.8800492,
+    "lonMax": 100.1259942
+  },
+  {
+    "label": "Lamphun",
+    "short_name": "Lamphun",
+    "latMin": 17.4256518,
+    "latMax": 18.7083657,
+    "lonMin": 98.6708215,
+    "lonMax": 99.3215434
+  },
+  {
+    "label": "Loei",
+    "short_name": "Loei",
+    "latMin": 16.7535722,
+    "latMax": 18.220272,
+    "lonMin": 100.833265,
+    "lonMax": 102.1554425
+  },
+  {
+    "label": "Lop Buri",
+    "short_name": "Lop Buri",
+    "latMin": 14.6507414,
+    "latMax": 15.7561286,
+    "lonMin": 100.4205881,
+    "lonMax": 101.4141486
+  },
+  {
+    "label": "Mae Hong Son",
+    "short_name": "Mae Hong Son",
+    "latMin": 17.6369713,
+    "latMax": 19.81427,
+    "lonMin": 97.3438072,
+    "lonMax": 98.6522228
+  },
+  {
+    "label": "Maha Sarakham",
+    "short_name": "Maha Sarakham",
+    "latMin": 15.4059271,
+    "latMax": 16.6436224,
+    "lonMin": 102.8431455,
+    "lonMax": 103.5040292
+  },
+  {
+    "label": "Mukdahan",
+    "short_name": "Mukdahan",
+    "latMin": 16.1852237,
+    "latMax": 16.9067798,
+    "lonMin": 104.0701069,
+    "lonMax": 104.9782867
+  },
+  {
+    "label": "Nakhon Nayok",
+    "short_name": "Nakhon Nayok",
+    "latMin": 13.9612445,
+    "latMax": 14.5127993,
+    "lonMin": 100.9135971,
+    "lonMax": 101.5054838
+  },
+  {
+    "label": "Nakhon Pathom",
+    "short_name": "Nakhon Pathom",
+    "latMin": 13.6485754,
+    "latMax": 14.1791244,
+    "lonMin": 99.816712,
+    "lonMax": 100.3375551
+  },
+  {
+    "label": "Nakhon Phanom",
+    "short_name": "Nakhon Phanom",
+    "latMin": 16.7871073,
+    "latMax": 18.0237398,
+    "lonMin": 103.9815476,
+    "lonMax": 104.806605
+  },
+  {
+    "label": "Nakhon Ratchasima",
+    "short_name": "Nakhon Ratchasima",
+    "latMin": 14.1203894,
+    "latMax": 15.808174,
+    "lonMin": 101.1810138,
+    "lonMax": 103.0125606
+  },
+  {
+    "label": "Nakhon Sawan",
+    "short_name": "Nakhon Sawan",
+    "latMin": 15.0664511,
+    "latMax": 16.1912575,
+    "lonMin": 99.0861438,
+    "lonMax": 100.8481938
+  },
+  {
+    "label": "Nakhon Si Thammarat",
+    "short_name": "Nakhon Si Thammarat",
+    "latMin": 7.8380376,
+    "latMax": 9.3304572,
+    "lonMin": 99.2344106,
+    "lonMax": 101.3257855
+  },
+  {
+    "label": "Nan",
+    "short_name": "Nan",
+    "latMin": 18.0129908,
+    "latMax": 19.63407,
+    "lonMin": 100.3358982,
+    "lonMax": 101.357205
+  },
+  {
+    "label": "Narathiwat",
+    "short_name": "Narathiwat",
+    "latMin": 5.732906,
+    "latMax": 6.9703901,
+    "lonMin": 101.3711341,
+    "lonMax": 102.2559967
+  },
+  {
+    "label": "Nong Bua Lam Phu",
+    "short_name": "Nong Bua Lam Phu",
+    "latMin": 16.7719832,
+    "latMax": 17.692208,
+    "lonMin": 101.9816995,
+    "lonMax": 102.6791526
+  },
+  {
+    "label": "Nong Khai",
+    "short_name": "Nong Khai",
+    "latMin": 17.593769,
+    "latMax": 18.3052476,
+    "lonMin": 102.0551399,
+    "lonMax": 103.412766
+  },
+  {
+    "label": "Nonthaburi",
+    "short_name": "Nonthaburi",
+    "latMin": 13.789068,
+    "latMax": 14.1406689,
+    "lonMin": 100.2632891,
+    "lonMax": 100.567605
+  },
+  {
+    "label": "Pathum Thani",
+    "short_name": "Pathum Thani",
+    "latMin": 13.9162736,
+    "latMax": 14.2760439,
+    "lonMin": 100.3316046,
+    "lonMax": 100.9520756
+  },
+  {
+    "label": "Pattani",
+    "short_name": "Pattani",
+    "latMin": 6.5498586,
+    "latMax": 8.1638725,
+    "lonMin": 101.0173905,
+    "lonMax": 102.2292838
+  },
+  {
+    "label": "Phangnga",
+    "short_name": "Phangnga",
+    "latMin": 7.3660273,
+    "latMax": 9.5238288,
+    "lonMin": 97.4348176,
+    "lonMax": 98.7077538
+  },
+  {
+    "label": "Phatthalung",
+    "short_name": "Phatthalung",
+    "latMin": 7.0903324,
+    "latMax": 7.9057409,
+    "lonMin": 99.7327032,
+    "lonMax": 100.4286995
+  },
+  {
+    "label": "Phayao",
+    "short_name": "Phayao",
+    "latMin": 18.8059555,
+    "latMax": 19.7360621,
+    "lonMin": 99.68252,
+    "lonMax": 100.6289843
+  },
+  {
+    "label": "Phetchabun",
+    "short_name": "Phetchabun",
+    "latMin": 15.3182958,
+    "latMax": 17.1780001,
+    "lonMin": 100.6329722,
+    "lonMax": 101.7972481
+  },
+  {
+    "label": "Phetchaburi",
+    "short_name": "Phetchaburi",
+    "latMin": 12.5632061,
+    "latMax": 13.3434168,
+    "lonMin": 99.099418,
+    "lonMax": 100.4540891
+  },
+  {
+    "label": "Phichit",
+    "short_name": "Phichit",
+    "latMin": 15.9189533,
+    "latMax": 16.6484339,
+    "lonMin": 99.9836919,
+    "lonMax": 100.7992717
+  },
+  {
+    "label": "Phitsanulok",
+    "short_name": "Phitsanulok",
+    "latMin": 16.3186851,
+    "latMax": 17.742971,
+    "lonMin": 99.8534102,
+    "lonMax": 101.1099853
+  },
+  {
+    "label": "Phra Nakhon Si Ayutthaya",
+    "short_name": "Phra Nakhon Si Ayutthaya",
+    "latMin": 14.1074492,
+    "latMax": 14.6785056,
+    "lonMin": 100.2126196,
+    "lonMax": 100.8232715
+  },
+  {
+    "label": "Phrae",
+    "short_name": "Phrae",
+    "latMin": 17.6875566,
+    "latMax": 18.8354709,
+    "lonMin": 99.3675728,
+    "lonMax": 100.5513103
+  },
+  {
+    "label": "Phuket",
+    "short_name": "Phuket",
+    "latMin": 7.2611826,
+    "latMax": 8.2021889,
+    "lonMin": 98.0648897,
+    "lonMax": 98.4924989
+  },
+  {
+    "label": "Prachin Buri",
+    "short_name": "Prachin Buri",
+    "latMin": 13.582315,
+    "latMax": 14.4625255,
+    "lonMin": 101.137422,
+    "lonMax": 102.1262781
+  },
+  {
+    "label": "Prachuap Khiri Khan",
+    "short_name": "Prachuap Khiri Khan",
+    "latMin": 10.9546914,
+    "latMax": 12.660211,
+    "lonMin": 99.1473621,
+    "lonMax": 100.4536557
+  },
+  {
+    "label": "Ranong",
+    "short_name": "Ranong",
+    "latMin": 9.3037708,
+    "latMax": 10.7884482,
+    "lonMin": 97.6650928,
+    "lonMax": 98.9649265
+  },
+  {
+    "label": "Ratchaburi",
+    "short_name": "Ratchaburi",
+    "latMin": 13.1487936,
+    "latMax": 13.957609,
+    "lonMin": 99.163586,
+    "lonMax": 100.0714949
+  },
+  {
+    "label": "Rayong",
+    "short_name": "Rayong",
+    "latMin": 12.2159732,
+    "latMax": 13.1635573,
+    "lonMin": 100.9844476,
+    "lonMax": 101.8310549
+  },
+  {
+    "label": "Roi Et",
+    "short_name": "Roi Et",
+    "latMin": 15.4049651,
+    "latMax": 16.4728115,
+    "lonMin": 103.2668856,
+    "lonMax": 104.3480046
+  },
+  {
+    "label": "Sa Kaeo",
+    "short_name": "Sa Kaeo",
+    "latMin": 13.2367083,
+    "latMax": 14.1957918,
+    "lonMin": 101.8733904,
+    "lonMax": 102.9409821
+  },
+  {
+    "label": "Sakon Nakhon",
+    "short_name": "Sakon Nakhon",
+    "latMin": 16.7722558,
+    "latMax": 18.0889458,
+    "lonMin": 103.2506949,
+    "lonMax": 104.4352781
+  },
+  {
+    "label": "Samut Prakan",
+    "short_name": "Samut Prakan",
+    "latMin": 13.2189544,
+    "latMax": 13.7184898,
+    "lonMin": 100.4444351,
+    "lonMax": 100.9638955
+  },
+  {
+    "label": "Samut Sakhon",
+    "short_name": "Samut Sakhon",
+    "latMin": 13.2191019,
+    "latMax": 13.7245811,
+    "lonMin": 100.0269136,
+    "lonMax": 100.4540891
+  },
+  {
+    "label": "Samut Songkhram",
+    "short_name": "Samut Songkhram",
+    "latMin": 13.2198305,
+    "latMax": 13.5162647,
+    "lonMin": 99.8523018,
+    "lonMax": 100.1623
+  },
+  {
+    "label": "Saraburi",
+    "short_name": "Saraburi",
+    "latMin": 14.2433866,
+    "latMax": 15.0469713,
+    "lonMin": 100.5728496,
+    "lonMax": 101.4547357
+  },
+  {
+    "label": "Satun",
+    "short_name": "Satun",
+    "latMin": 6.2726905,
+    "latMax": 7.2036988,
+    "lonMin": 98.9586342,
+    "lonMax": 100.2206192
+  },
+  {
+    "label": "Si Sa Ket",
+    "short_name": "Si Sa Ket",
+    "latMin": 14.3438896,
+    "latMax": 15.5683839,
+    "lonMin": 103.9020062,
+    "lonMax": 104.9085397
+  },
+  {
+    "label": "Sing Buri",
+    "short_name": "Sing Buri",
+    "latMin": 14.7216056,
+    "latMax": 15.1187946,
+    "lonMin": 100.1818687,
+    "lonMax": 100.4893006
+  },
+  {
+    "label": "Songkhla",
+    "short_name": "Songkhla",
+    "latMin": 6.2901172,
+    "latMax": 8.1638725,
+    "lonMin": 100.0545568,
+    "lonMax": 101.3257855
+  },
+  {
+    "label": "Sukhothai",
+    "short_name": "Sukhothai",
+    "latMin": 16.6827153,
+    "latMax": 17.8216562,
+    "lonMin": 99.3121665,
+    "lonMax": 100.1117946
+  },
+  {
+    "label": "Suphan Buri",
+    "short_name": "Suphan Buri",
+    "latMin": 14.0639083,
+    "latMax": 15.0809053,
+    "lonMin": 99.2759624,
+    "lonMax": 100.2900073
+  },
+  {
+    "label": "Surat Thani",
+    "short_name": "Surat Thani",
+    "latMin": 8.3007892,
+    "latMax": 10.1769302,
+    "lonMin": 98.4430989,
+    "lonMax": 100.4801723
+  },
+  {
+    "label": "Surin",
+    "short_name": "Surin",
+    "latMin": 14.3267099,
+    "latMax": 15.4828546,
+    "lonMin": 103.0896049,
+    "lonMax": 104.0921379
+  },
+  {
+    "label": "Tak",
+    "short_name": "Tak",
+    "latMin": 15.1799534,
+    "latMax": 17.8679172,
+    "lonMin": 97.742169,
+    "lonMax": 99.4670352
+  },
+  {
+    "label": "Trang",
+    "short_name": "Trang",
+    "latMin": 6.8299485,
+    "latMax": 8.0129037,
+    "lonMin": 98.8953064,
+    "lonMax": 99.9491068
+  },
+  {
+    "label": "Trat",
+    "short_name": "Trat",
+    "latMin": 11.3463991,
+    "latMax": 12.7572388,
+    "lonMin": 101.9487781,
+    "lonMax": 102.9141851
+  },
+  {
+    "label": "Ubon Ratchathani",
+    "short_name": "Ubon Ratchathani",
+    "latMin": 14.209568,
+    "latMax": 16.0981491,
+    "lonMin": 104.3715842,
+    "lonMax": 105.636812
+  },
+  {
+    "label": "Udon Thani",
+    "short_name": "Udon Thani",
+    "latMin": 16.803074,
+    "latMax": 18.086392,
+    "lonMin": 102.0157348,
+    "lonMax": 103.6681462
+  },
+  {
+    "label": "Uthai Thani",
+    "short_name": "Uthai Thani",
+    "latMin": 14.9419101,
+    "latMax": 15.7982614,
+    "lonMin": 98.984003,
+    "lonMax": 100.1067384
+  },
+  {
+    "label": "Uttaradit",
+    "short_name": "Uttaradit",
+    "latMin": 17.1385421,
+    "latMax": 18.38126,
+    "lonMin": 99.8944913,
+    "lonMax": 101.19266
+  },
+  {
+    "label": "Yala",
+    "short_name": "Yala",
+    "latMin": 5.612851,
+    "latMax": 6.6831757,
+    "lonMin": 100.834711,
+    "lonMax": 101.6089762
+  },
+  {
+    "label": "Yasothon",
+    "short_name": "Yasothon",
+    "latMin": 15.2893058,
+    "latMax": 16.3488863,
+    "lonMin": 103.9974655,
+    "lonMax": 104.8250088
+  }
+]
